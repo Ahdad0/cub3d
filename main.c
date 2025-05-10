@@ -16,8 +16,7 @@ int main(int ac, char **av)
 	data = malloc(sizeof(t_data));
 	data->player = &player;
 	data->mlx = mlx_init();
-	calculate(data, av);
-	storing_info(data);
+	parsing(data, av);
 	// int x = 0;
 	// data->mlx_win = mlx_new_window(data->mlx, data->x * 64, data->y * 64, "New");
 	// printf("data=%s-\n", dataa);

@@ -9,7 +9,8 @@ static int	count(char const *s, char c)
 	cou = 0;
 	while (s[i])
 	{
-		if ((s[i] != c && s[i + 1] == c) || (s[i] != c && s[i + 1] == '\0'))
+		if (((s[i] != c && s[i] != '\t') && (s[i + 1] == c || s[i + 1] == '\t'))
+			|| ((s[i] != c && s[i] != '\t') && s[i + 1] == '\0'))
 			cou++;
 		i++;
 	}
@@ -36,9 +37,9 @@ static int	ft_l(char *s, char c, int *j)
 	len = 0;
 	while (s[*j])
 	{
-		if (s[*j] != c)
+		if (s[*j] != c && s[*j] != '\t')
 			len++;
-		else if (len != 0 && s[*j] == c)
+		else if (len != 0 && (s[*j] == c || s[*j] != c))
 			break ;
 		(*j)++;
 	}
@@ -55,7 +56,7 @@ static char	*ft_str(char *s, char c, int *j)
 
 	o = 0;
 	i = *j;
-	while (s[i] == c)
+	while (s[i] == c || s[i] == '\t')
 		i++;
 	ll = ft_l(s, c, j);
 	p = malloc(ll + 1);

@@ -13,15 +13,16 @@ typedef struct player
 {
 	int	x;
 	int	y;
-	void	*player_image;
-	void	*view;
-	void	*floor_image;
 	char	*path_NO;
 	char	*path_SO;
 	char	*path_WE;
 	char	*path_EA;
-	char	*color_C;
-	char	*color_F;
+	void	**NO;
+	void	**SO;
+	void	**WE;
+	void	**EA;
+	int		*C_RGB;
+	int		*F_RGB;
 }	t_player;
 
 typedef struct data
@@ -41,7 +42,7 @@ typedef struct data
 
 
 void	calculate(t_data *data, char **av);
-void storing_info(t_data *data);
+void parsing(t_data *data, char **av);
 int	position_of_char(char *string, char c);
 
 #endif

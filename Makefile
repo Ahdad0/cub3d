@@ -1,5 +1,6 @@
 SRCS = main.c helper_function/get_next_line/get_next_line.c helper_function/get_next_line/get_next_line_utils.c \
-	helper_function/ft_split.c parsing/main_parsing.c
+	helper_function/ft_split.c parsing/main_parsing.c helper_function/ft_strtrim.c helper_function/ft_strlen.c \
+	helper_function/ft_strchr.c helper_function/ft_strcmp.c helper_function/ft_strdup.c helper_function/ft_atoi.c
 
 NAME = cub3d
 

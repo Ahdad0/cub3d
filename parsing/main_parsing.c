@@ -61,92 +61,31 @@ void	calculate(t_data *data, char **av)
 	data->cpy_map[o] = NULL;
 }
 
-// int	close_window(int keycode)
-// {
-// 	(void)keycode;
-// 	exit(0);
-// }
-
-// int	key_press(int keycode, t_data *data)
-// {
-// 	if (keycode == 65307)
-// 		exit(0);
-// 	else if (keycode == 65363)
-// 	{
-// 		data->player->x += 1;
-// 		mlx_put_image_to_window(data->mlx, data->mlx_win,
-// 				data->player->player_image, data->player->x * 64, data->player->y * 64);
-// 	}
-// 	return (0);
-// }
-
-// void	draw_line(t_data *data, int y_index, int x_index)
-// {
-// 	int x = 0;
-// 	int y = 0;
-// 	int color = 0x00FFFFFF;
-// 	while (y < 63)
-// 	{
-// 		x = 0;
-// 		while (x < 63)
-// 		{
-// 			int offset = (y * data->size_line) + (x * (data->bits / 8));
-// 			*(unsigned int *)(data->dataa + offset) = color;
-// 			mlx_put_image_to_window(data->mlx, data->mlx_win, data->player->view,
-// 				y_index * 64, x_index * 64);
-// 			x++;
-// 		}
-// 		y++;
-// 	}
-// }
-
-// void	put_image(t_data *data)
-// {
-// 	int	i;
-// 	int	j;
-
-// 	i = 0;
-// 	while (i < data->y)
-// 	{
-// 		j = 0;
-// 		while (j < data->x)
-// 		{
-// 			if (data->cpy_map[i][j] == '1')
-// 			{
-// 				draw_line(data, j, i);
-// 			}
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// }
-
 char	**two_arguments(char *one_line)
 {
 	char	**line;
-	// bool	found_char;
-	// int		i;
-	// int		first_index;
-	// int		seconde_index;
+	int i = 0;
+	char	*new_str;
 
-	// i = 0;
-	// found_char = false;
-	// first_index = 0;
-	// line = malloc(3 * sizeof(char *));
-	// while (one_line[i])
-	// {
-	// 	if (isalpha(one_line[i]) != 0)
-	// 	{
-	// 		found_char = true;
-	// 		seconde_index = i + 1;
-	// 	}
-	// 	else if (found_char == false && isalpha(one_line[i + 1]) != 0)
-	// 		first_index = i + 1;
-	// 	i++;
-	// }
-	line = ft_split(one_line, ' ');
+	// printf("str=%s, len=%zu\n", one_line, ft_strlen(one_line));
+	if (ft_strlen(one_line) != 1)
+	{
+		new_str = ft_strtrim(one_line, "\n\t");
+		if (!new_str)
+			return (NULL);
+	}
+	else
+		new_str = ft_strdup(one_line);
+	line = ft_split(new_str, ' ');
 	if (!line)
 		return (NULL);
+	while (line[i])
+	{
+		if (ft_strchr(line[i], '\n'))
+			line[i][ft_strlen(line[i]) - 1] = '\0';
+		// printf("line:%s\n", line[i]);
+		i++;
+	}
 	return (line);
 }
 
@@ -162,36 +101,272 @@ void	free_mat(char **arr)
 	free(arr);
 }
 
-void storing_info(t_data *data)
+void	destroy_images(t_data *data)
+{
+	printf("invalid path or invalid image!\n");
+	if (data->player->NO)
+		mlx_destroy_image(data->mlx, data->player->NO);
+	if (data->player->SO)
+		mlx_destroy_image(data->mlx, data->player->SO);
+	if (data->player->WE)
+		mlx_destroy_image(data->mlx, data->player->WE);
+	if (data->player->EA)
+		mlx_destroy_image(data->mlx, data->player->EA);
+	exit(1);
+}
+
+void	storing_images(t_data *data)
+{
+	int width;
+	int height;
+	
+	data->player->NO = NULL;
+	data->player->SO = NULL;
+	data->player->WE = NULL;
+	data->player->EA = NULL;
+
+	// data->player->path_NO[strlen(data->player->path_NO) - 1] = '\0';
+	data->player->NO = mlx_xpm_file_to_image(data->mlx, data->player->path_NO, &width, &height);
+	if (!data->player->NO)
+		destroy_images(data);
+
+	// data->player->path_SO[strlen(data->player->path_SO) - 1] = '\0';
+	data->player->SO = mlx_xpm_file_to_image(data->mlx, data->player->path_SO, &width, &height);
+	if (!data->player->SO)
+		destroy_images(data);
+
+	// data->player->path_WE[strlen(data->player->path_WE) - 1] = '\0';
+	data->player->WE = mlx_xpm_file_to_image(data->mlx, data->player->path_WE, &width, &height);
+	if (!data->player->WE)
+		destroy_images(data);
+
+	// data->player->path_EA[strlen(data->player->path_EA) - 1] = '\0';
+	data->player->EA = mlx_xpm_file_to_image(data->mlx, data->player->path_EA, &width, &height);
+	if (!data->player->EA)
+		destroy_images(data);
+}
+
+int	len_matrix(char **array)
+{
+	int i = 0;
+
+	if (!array)
+		return (0);
+	while (array[i])
+		i++;
+	return (i);
+}
+
+void	checking_color(char *line)
+{
+	char **l;
+
+	l = ft_split(line, ',');
+	if (!l)
+		return ;
+	if (len_matrix(l) != 3)
+	{
+		printf("");
+	}
+}
+
+int	cout_char(char *str, char c)
+{
+	int i = 0;
+	int index = 0;
+
+	while (str[i])
+	{
+		if (str[i] == c)
+			index++;
+		i++;
+	}
+	return (index);
+}
+int	*split_colors(char *line)
+{
+	char **new;
+	int	*color;
+	int	num;
+
+	num = 0;
+	new = ft_split(line, ',');
+	if (!new)
+		return (NULL);
+	if (len_matrix(new) != 3 || cout_char(line, ',') != 2)
+	{
+		printf("Error in the RGB!\n");
+		exit(1);
+	}
+	color = malloc(3 * sizeof(int));
+	if (!color)
+		return (NULL);
+	num = ft_atoi(new[0]);
+	if (num > 255 || num < 0)
+	{
+		printf("this number is not acceptable in RGB!\n");
+		exit(1);
+	}
+	color[0] = ft_atoi(new[0]);
+	num = ft_atoi(new[1]);
+	if (num > 255 || num < 0)
+	{
+		printf("this number is not acceptable in RGB!\n");
+		exit(1);
+	}
+	color[1] = ft_atoi(new[1]);
+	num = ft_atoi(new[2]);
+	if (num > 255 || num < 0)
+	{
+		printf("this number is not acceptable in RGB!\n");
+		exit(1);
+	}
+	color[2] = ft_atoi(new[2]);
+	return (color);
+}
+
+void	parsing(t_data *data, char **av)
 {
 	(void)data;
 	char	**line;
 	int i = 0;
 	int last = 0;
+	int index = 0;
+	
+	calculate(data, av);
 
-	// two_arguments(data->cpy_map[0]);
+	data->player->path_NO = NULL;
+	data->player->path_SO = NULL;
+	data->player->path_WE = NULL;
+	data->player->path_EA = NULL;
+	data->player->C_RGB = NULL;
+	data->player->F_RGB = NULL;
+
 	while (data->cpy_map[i])
 	{
 		line = two_arguments(data->cpy_map[i]);
-		if (strcmp(line[0], "NO") == 0)
-			data->player->path_NO = strdup(line[1]);
-		else if (strcmp(line[0], "SO") == 0)
-			data->player->path_SO = strdup(line[1]);
-		else if (strcmp(line[0], "WE") == 0)
-			data->player->path_WE = strdup(line[1]);
-		else if (strcmp(line[0], "EA") == 0)
-			data->player->path_EA = strdup(line[1]);
-		else if (strcmp(line[0], "F") == 0)
-			data->player->color_F = strdup(line[1]);
-		else if (strcmp(line[0], "C") == 0)
+		if (ft_strcmp(line[0], "NO") == 0)
 		{
-			data->player->color_C = strdup(line[1]);
+			if (len_matrix(line) != 2)
+			{
+				printf("invalid syntax of type and object!\n");
+				exit(1);
+			}
+			data->player->path_NO = strdup(line[1]);
 			last = i + 2;
+			index++;
+		}
+		else if (ft_strcmp(line[0], "SO") == 0)
+		{
+			if (len_matrix(line) != 2)
+			{
+				printf("invalid syntax of type and object!\n");
+				exit(1);
+			}
+			data->player->path_SO = strdup(line[1]);
+			last = i + 2;
+			index++;
+		}
+		else if (ft_strcmp(line[0], "WE") == 0)
+		{
+			if (len_matrix(line) != 2)
+			{
+				printf("invalid syntax of type and object!\n");
+				exit(1);
+			}
+			data->player->path_WE = strdup(line[1]);
+			last = i + 2;
+			index++;
+		}
+		else if (ft_strcmp(line[0], "EA") == 0)
+		{
+			if (len_matrix(line) != 2)
+			{
+				printf("invalid syntax of type and object!\n");
+				exit(1);
+			}
+			data->player->path_EA = strdup(line[1]);
+			last = i + 2;
+			index++;
+		}
+		else if (ft_strcmp(line[0], "F") == 0)
+		{
+			if (len_matrix(line) != 2)
+			{
+				printf("invalid syntax of type and object!\n");
+				exit(1);
+			}
+			// checking_color(line[1]);
+			data->player->F_RGB = split_colors(line[1]);
+			last = i + 2;
+			index++;
+		}
+		else if (ft_strcmp(line[0], "C") == 0)
+		{
+			if (len_matrix(line) != 2)
+			{
+				printf("invalid syntax of type and object!\n");
+				exit(1);
+			}
+			data->player->C_RGB = split_colors(line[1]);
+			last = i + 2;
+			index++;
+		}
+		else if (line && line[0] && line[0][0] != '\0')
+		{
+			if (index != 6 && (line[0][0] == '1' || line[0][0] == '0'))
+			{
+				printf("false position for the map or not all types found!\n");
+				exit(1);
+			}
+			printf("line=%s\n", line[0]);
+			printf("unknowed type!\n");
+			exit(1);
+		}
+		if (index == 6)
+		{
+			// printf("found all the types\n");
+			break;
 		}
 		// free_mat(line);
 		i++;
 	}
-	int index = 0;
+	if (index == 0)
+	{
+		printf("no type found\n");
+		exit(1);
+	}
+	if (!data->player->path_NO)
+	{
+		printf("there is a type missing\n");
+		exit(1);
+	}
+	if (!data->player->path_SO)
+	{
+		printf("there is a type missing!\n");
+		exit(1);
+	}
+	if (!data->player->path_WE)
+	{
+		printf("there is a type missing!\n");
+		exit(1);
+	}
+	if (!data->player->path_EA)
+	{
+		printf("there is a type missing!\n");
+		exit(1);
+	}
+	if (!data->player->F_RGB)
+	{
+		printf("there is type missing\n");
+		exit(1);
+	}
+	if (!data->player->C_RGB)
+	{
+		printf("there is type missing\n");
+		exit(1);
+	}
+	index = 0;
 	int cpy_last = last;
 	while (data->cpy_map[cpy_last])
 	{
@@ -200,8 +375,15 @@ void storing_info(t_data *data)
 	data->map = malloc((cpy_last + 1) * sizeof(char *));
 	while (data->cpy_map[last])
 	{
-		data->map[index++] = strdup(data->cpy_map[last]);
+		data->map[index++] = ft_strdup(data->cpy_map[last]);
 		last++;
 	}
 	data->map[index] = NULL;
+	// i = 0;
+	// while (data->map[i])
+	// {
+	// 	printf("%s", data->map[i]);
+	// 	i++;
+	// }
+	storing_images(data);
 }
