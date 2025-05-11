@@ -229,21 +229,21 @@ void	checking_map(t_data *data)
 {
 	int i = 0;
 	int y = 0;
-	bool line = false;
+	// bool line = false;
 
 	while (data->cpy_map_parsing[i])
 	{
 		y = 0;
-		if (line == true && ft_strchr(data->cpy_map_parsing[i], '1'))
-		{
-			printf("it is not the right syntax for the map!\n");
-			exit(1);
-		}
-		if (!ft_strchr(data->cpy_map_parsing[i], '1'))
-		{
-			printf("line found = %s\n", data->cpy_map_parsing[i]);
-			line = true;
-		}
+		// if (line == true && ft_strchr(data->cpy_map_parsing[i], '1'))
+		// {
+		// 	printf("it is not the right syntax for the map!\n");
+		// 	exit(1);
+		// }
+		// if (!ft_strchr(data->cpy_map_parsing[i], '1'))
+		// {
+		// 	printf("line found = %s\n", data->cpy_map_parsing[i]);
+		// 	line = true;
+		// }
 		while (data->cpy_map_parsing[i][y])
 		{
 			if (data->cpy_map_parsing[i][y] == '0')
@@ -379,7 +379,6 @@ void	parsing(t_data *data, char **av)
 	}
 
 	// fix i + 2 between last type and the map
-	printf("last is %d\n", last);
 	if (index == 0)
 	{
 		printf("no type found or the map not found!\n");
@@ -434,12 +433,12 @@ void	parsing(t_data *data, char **av)
 	}
 	data->map[index] = NULL;
 	data->cpy_map_parsing[u] = NULL;
-	i = 0;
-	while (data->cpy_map_parsing[i])
-	{
-		printf("%s\n", data->cpy_map_parsing[i]);
-		i++;
-	}
+	// i = 0;
+	// while (data->cpy_map_parsing[i])
+	// {
+	// 	printf("%s\n", data->cpy_map_parsing[i]);
+	// 	i++;
+	// }
 	checking_map(data);
 	storing_images(data);
 }
