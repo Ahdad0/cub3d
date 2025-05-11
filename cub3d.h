@@ -8,6 +8,7 @@
 // # include <X11/X.h>
 // # include <X11/keysym.h>
 # include <stdio.h>
+#include <stdbool.h>
 
 typedef struct player
 {
@@ -36,6 +37,7 @@ typedef struct data
 	void	*mlx;
 	void	*mlx_win;
 	char	**cpy_map;
+	char	**cpy_map_parsing;
 	char	**map;
 	t_player	*player;
 }	t_data;

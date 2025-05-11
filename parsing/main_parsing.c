@@ -225,6 +225,52 @@ int	*split_colors(char *line)
 	return (color);
 }
 
+void	checking_map(t_data *data)
+{
+	int i = 0;
+	int y = 0;
+	bool line = false;
+
+	while (data->cpy_map_parsing[i])
+	{
+		y = 0;
+		if (line == true && ft_strchr(data->cpy_map_parsing[i], '1'))
+		{
+			printf("it is not the right syntax for the map!\n");
+			exit(1);
+		}
+		if (!ft_strchr(data->cpy_map_parsing[i], '1'))
+		{
+			printf("line found = %s\n", data->cpy_map_parsing[i]);
+			line = true;
+		}
+		while (data->cpy_map_parsing[i][y])
+		{
+			if (data->cpy_map_parsing[i][y] == '0')
+			{
+				if ((!data->cpy_map_parsing[i + 1] || ft_strlen(data->cpy_map_parsing[i + 1]) < (size_t)y)
+				|| data->cpy_map_parsing[i + 1][y] == ' ' || !data->cpy_map_parsing[i + 1][y]
+				|| data->cpy_map_parsing[i - 1][y] == ' ' || ft_strlen(data->cpy_map_parsing[i - 1]) < (size_t)y
+				|| !data->cpy_map_parsing[i - 1][y] || data->cpy_map_parsing[i][y + 1] == ' '
+				|| !data->cpy_map_parsing[i][y + 1] || data->cpy_map_parsing[i][y - 1] == ' '
+				|| y == 0)
+				{
+					printf("Not closed\n");
+					// printf("len_matrix=%d, and i = %d\n", len_matrix(data->cpy_map_parsing), i);
+					// printf("up=%c, down=%c, right=%c, left=%c\n", data->cpy_map_parsing[i + 1][y],
+					// 	data->cpy_map_parsing[i - 1][y], data->cpy_map_parsing[i][y + 1],
+					// 	data->cpy_map_parsing[i][y - 1]);
+					// printf("the char is %c in i=%d, y=%d\n", data->cpy_map_parsing[i][y], i, y);
+					// printf("len = %zu, i = %d\n", ft_strlen(data->cpy_map_parsing[i + 1]), i);
+					exit(1);
+				}
+			}
+			y++;
+		}
+		i++;
+	}
+}
+
 void	parsing(t_data *data, char **av)
 {
 	(void)data;
@@ -253,7 +299,7 @@ void	parsing(t_data *data, char **av)
 				exit(1);
 			}
 			data->player->path_NO = strdup(line[1]);
-			last = i + 2;
+			last = i + 1;
 			index++;
 		}
 		else if (ft_strcmp(line[0], "SO") == 0)
@@ -264,7 +310,7 @@ void	parsing(t_data *data, char **av)
 				exit(1);
 			}
 			data->player->path_SO = strdup(line[1]);
-			last = i + 2;
+			last = i + 1;
 			index++;
 		}
 		else if (ft_strcmp(line[0], "WE") == 0)
@@ -275,7 +321,7 @@ void	parsing(t_data *data, char **av)
 				exit(1);
 			}
 			data->player->path_WE = strdup(line[1]);
-			last = i + 2;
+			last = i + 1;
 			index++;
 		}
 		else if (ft_strcmp(line[0], "EA") == 0)
@@ -286,7 +332,7 @@ void	parsing(t_data *data, char **av)
 				exit(1);
 			}
 			data->player->path_EA = strdup(line[1]);
-			last = i + 2;
+			last = i + 1;
 			index++;
 		}
 		else if (ft_strcmp(line[0], "F") == 0)
@@ -298,7 +344,7 @@ void	parsing(t_data *data, char **av)
 			}
 			// checking_color(line[1]);
 			data->player->F_RGB = split_colors(line[1]);
-			last = i + 2;
+			last = i + 1;
 			index++;
 		}
 		else if (ft_strcmp(line[0], "C") == 0)
@@ -309,7 +355,7 @@ void	parsing(t_data *data, char **av)
 				exit(1);
 			}
 			data->player->C_RGB = split_colors(line[1]);
-			last = i + 2;
+			last = i + 1;
 			index++;
 		}
 		else if (line && line[0] && line[0][0] != '\0')
@@ -319,7 +365,7 @@ void	parsing(t_data *data, char **av)
 				printf("false position for the map or not all types found!\n");
 				exit(1);
 			}
-			printf("line=%s\n", line[0]);
+			// printf("line=%s\n", line[0]);
 			printf("unknowed type!\n");
 			exit(1);
 		}
@@ -331,9 +377,12 @@ void	parsing(t_data *data, char **av)
 		// free_mat(line);
 		i++;
 	}
+
+	// fix i + 2 between last type and the map
+	printf("last is %d\n", last);
 	if (index == 0)
 	{
-		printf("no type found\n");
+		printf("no type found or the map not found!\n");
 		exit(1);
 	}
 	if (!data->player->path_NO)
@@ -367,23 +416,30 @@ void	parsing(t_data *data, char **av)
 		exit(1);
 	}
 	index = 0;
+	int u = 0;
 	int cpy_last = last;
 	while (data->cpy_map[cpy_last])
 	{
 		cpy_last++;
 	}
 	data->map = malloc((cpy_last + 1) * sizeof(char *));
+	data->cpy_map_parsing = malloc((cpy_last + 1) * sizeof(char *));
 	while (data->cpy_map[last])
 	{
 		data->map[index++] = ft_strdup(data->cpy_map[last]);
+		data->cpy_map_parsing[u++] = ft_strdup(data->cpy_map[last]);
+		if (ft_strchr(data->cpy_map_parsing[u - 1], '\n'))
+			data->cpy_map_parsing[u - 1][ft_strlen(data->cpy_map_parsing[u - 1]) - 1] = '\0';
 		last++;
 	}
 	data->map[index] = NULL;
-	// i = 0;
-	// while (data->map[i])
-	// {
-	// 	printf("%s", data->map[i]);
-	// 	i++;
-	// }
+	data->cpy_map_parsing[u] = NULL;
+	i = 0;
+	while (data->cpy_map_parsing[i])
+	{
+		printf("%s\n", data->cpy_map_parsing[i]);
+		i++;
+	}
+	checking_map(data);
 	storing_images(data);
 }
