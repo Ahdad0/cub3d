@@ -1,77 +1,61 @@
 #include "../helper_functions.h"
 
-static size_t	ft_check_first(char *s1, char *set)
+static size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 {
 	size_t	i;
-	size_t	j;
-	size_t	c;
 
 	i = 0;
-	while (s1[i])
+	if (size != 0)
 	{
-		j = 0;
-		c = 0;
-		while (set[j])
+		while (src [i] != '\0' && i < (size - 1))
 		{
-			if (set[j] == s1[i])
-				c = 1;
-			j++;
+			dest[i] = src[i];
+			i++;
 		}
-		if (!c)
-			return (i);
+		dest[i] = '\0';
+	}
+	return (ft_strlen(src));
+}
+
+static int	ft_check_set(char const c, char const *set)
+{
+	int	i;
+
+	i = 0;
+	while (set[i] != '\0')
+	{
+		if (set[i] == c)
+			return (1);
 		i++;
 	}
 	return (0);
 }
 
-static int	ft_check_last(char *s1, char *set)
-{
-	int		last;
-	size_t	j;
-	size_t	c;
-
-	last = ft_strlen(s1) - 1;
-	if (last < 0)
-		return (0);
-	while (last > 0)
-	{
-		j = 0;
-		c = 0;
-		while (set[j])
-		{
-			if (s1[last] == set[j])
-				c = 1;
-			j++;
-		}
-		if (!c)
-			return (last);
-		last--;
-	}
-	return (last);
-}
-
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	size_t	start;
-	int		end;
-	size_t	i;
-	char	*p;
-	size_t	sub;
+	size_t	size;
+	char	*new;
 
 	if (!s1 || !set)
 		return (NULL);
-	i = 0;
-	start = ft_check_first((char *)s1, (char *)set);
-	end = ft_check_last((char *)s1, (char *)set);
-	if (end != 0)
-		sub = end - start + 1;
-	else
-		sub = end - start;
-	p = malloc(sub + 1);
-	if (!p)
+	while (s1)
+	{
+		if (ft_check_set(((char)*s1), set) == 1)
+			s1++;
+		else
+			break ;
+	}
+	size = ft_strlen(s1);
+	while (size != 0)
+	{
+		if (ft_check_set(s1[size - 1], set) == 1)
+			size--;
+		else
+			break ;
+	}
+	new = (char *)malloc(size * sizeof(char) + 1);
+	if (!new)
 		return (NULL);
-	while (s1[start] && i < sub)
-		p[i++] = s1[start++];
-	p[i] = '\0';
-	return (p);
+	ft_strlcpy(new, (char *)s1, size + 1);
+	return (new);
 }

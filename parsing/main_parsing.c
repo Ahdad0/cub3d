@@ -82,8 +82,9 @@ char	**two_arguments(char *one_line)
 	while (line[i])
 	{
 		if (ft_strchr(line[i], '\n'))
+		{
 			line[i][ft_strlen(line[i]) - 1] = '\0';
-		// printf("line:%s\n", line[i]);
+		}
 		i++;
 	}
 	return (line);
@@ -229,21 +230,18 @@ void	checking_map(t_data *data)
 {
 	int i = 0;
 	int y = 0;
-	// bool line = false;
+	bool line = false;
 
 	while (data->cpy_map_parsing[i])
 	{
 		y = 0;
-		// if (line == true && ft_strchr(data->cpy_map_parsing[i], '1'))
-		// {
-		// 	printf("it is not the right syntax for the map!\n");
-		// 	exit(1);
-		// }
-		// if (!ft_strchr(data->cpy_map_parsing[i], '1'))
-		// {
-		// 	printf("line found = %s\n", data->cpy_map_parsing[i]);
-		// 	line = true;
-		// }
+		if (line == true && ft_strchr(data->cpy_map_parsing[i], '1'))
+		{
+			printf("it is not the right syntax for the map!\n");
+			exit(1);
+		}
+		if (!ft_strchr(data->cpy_map_parsing[i], '1'))
+			line = true;
 		while (data->cpy_map_parsing[i][y])
 		{
 			if (data->cpy_map_parsing[i][y] == '0')
@@ -291,6 +289,12 @@ void	parsing(t_data *data, char **av)
 	while (data->cpy_map[i])
 	{
 		line = two_arguments(data->cpy_map[i]);
+		// int ii = 0;
+		// while (line[ii])
+		// {
+		// 	printf("line[%d]=%s\n", ii, line[ii]);
+		// 	ii++;
+		// }
 		if (ft_strcmp(line[0], "NO") == 0)
 		{
 			if (len_matrix(line) != 2)
@@ -360,24 +364,28 @@ void	parsing(t_data *data, char **av)
 		}
 		else if (line && line[0] && line[0][0] != '\0')
 		{
-			if (index != 6 && (line[0][0] == '1' || line[0][0] == '0'))
+			if (index != 6 && line[0][0] == '1')
 			{
 				printf("false position for the map or not all types found!\n");
 				exit(1);
 			}
-			// printf("line=%s\n", line[0]);
+			else if (index == 6 && line[0][0] == '1')
+			{
+				last = i;
+				break;
+			}
 			printf("unknowed type!\n");
 			exit(1);
 		}
-		if (index == 6)
-		{
-			// printf("found all the types\n");
-			break;
-		}
+		// printf("line=%s\n", line[0]);
+		// if (index == 6)
+		// {
+		// 	printf("found all the types\n");
+		// 	break;
+		// }
 		// free_mat(line);
 		i++;
 	}
-
 	// fix i + 2 between last type and the map
 	if (index == 0)
 	{
