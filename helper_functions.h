@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <stdbool.h>
+#include "cub3d.h"
 
 typedef enum {
     ALLOC,
@@ -25,5 +27,11 @@ char	*ft_strchr(const char *s, int c);
 int    ft_strcmp(char *s1, char *s2);
 char	*ft_strdup(const char *s);
 int	ft_atoi(const char *nptr);
-void *alloc(size_t size, t_garbage *garbage, e_action action);
+void *alloc(size_t size, e_action action);
+void checking_filename(char **av);
+void	ft_write_stderr(char *string);
+void	free_mat(char **arr);
+int	len_matrix(char **array);
+int	cout_char(char *str, char c);
+
 #endif

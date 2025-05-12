@@ -28,6 +28,9 @@ typedef struct player
 
 typedef struct data
 {
+	int		index_player;
+	int		index_checking;
+	int		last_line;
 	int		x;
 	int		y;
 	int		bits;
@@ -43,8 +46,17 @@ typedef struct data
 }	t_data;
 
 
-void	calculate(t_data *data, char **av);
+void	store_map(t_data *data, char **av);
 void parsing(t_data *data, char **av);
-int	position_of_char(char *string, char c);
+int	position_of_char(char *string, char *c);
+void	store_element(t_data *data);
+int	*split_colors(char *line);
+int	len_matrix(char **array);
+char	**two_arguments(char *one_line);
+void	free_mat(char **arr);
+void	store_oriandcpy_map(t_data *data);
+void	check_path_elements(t_data *data);
+void	checking_map(t_data *data);
+int	*split_colors(char *line);
 
 #endif

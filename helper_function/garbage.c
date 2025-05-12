@@ -53,10 +53,11 @@ void	garbage_add_back(void *allocated, t_garbage **garbage)
 		last->next = new_allocation;
 }
 
-void *alloc(size_t size, t_garbage *garbage, e_action action)
+void *alloc(size_t size, e_action action)
 {
     void *returned;
-
+	static t_garbage *garbage;
+	
     if(action == ALLOC)
     {
         returned = malloc(size);
