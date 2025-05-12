@@ -79,6 +79,7 @@ char	**two_arguments(char *one_line)
 	line = ft_split(new_str, ' ');
 	if (!line)
 		return (NULL);
+	free(new_str);
 	while (line[i])
 	{
 		if (ft_strchr(line[i], '\n'))
@@ -145,6 +146,11 @@ void	storing_images(t_data *data)
 	data->player->EA = mlx_xpm_file_to_image(data->mlx, data->player->path_EA, &width, &height);
 	if (!data->player->EA)
 		destroy_images(data);
+
+	free(data->player->path_NO);
+	free(data->player->path_SO);
+	free(data->player->path_WE);
+	free(data->player->path_EA);
 }
 
 int	len_matrix(char **array)
@@ -231,6 +237,7 @@ void	checking_map(t_data *data)
 	int i = 0;
 	int y = 0;
 	bool line = false;
+	int player = 0;
 
 	while (data->cpy_map_parsing[i])
 	{
@@ -244,6 +251,16 @@ void	checking_map(t_data *data)
 			line = true;
 		while (data->cpy_map_parsing[i][y])
 		{
+			if (data->cpy_map_parsing[i][y] == 'N'
+				|| data->cpy_map_parsing[i][y] == 'E'
+				|| data->cpy_map_parsing[i][y] == 'W'
+				|| data->cpy_map_parsing[i][y] == 'S')
+				player++;
+			if (player > 1)
+			{
+				printf("Error: just one player\n");
+				exit(1);	
+			}
 			if (data->cpy_map_parsing[i][y] == '0')
 			{
 				if ((!data->cpy_map_parsing[i + 1] || ft_strlen(data->cpy_map_parsing[i + 1]) < (size_t)y)
@@ -254,17 +271,29 @@ void	checking_map(t_data *data)
 				|| y == 0)
 				{
 					printf("Not closed\n");
-					// printf("len_matrix=%d, and i = %d\n", len_matrix(data->cpy_map_parsing), i);
-					// printf("up=%c, down=%c, right=%c, left=%c\n", data->cpy_map_parsing[i + 1][y],
-					// 	data->cpy_map_parsing[i - 1][y], data->cpy_map_parsing[i][y + 1],
-					// 	data->cpy_map_parsing[i][y - 1]);
-					// printf("the char is %c in i=%d, y=%d\n", data->cpy_map_parsing[i][y], i, y);
-					// printf("len = %zu, i = %d\n", ft_strlen(data->cpy_map_parsing[i + 1]), i);
+					exit(1);
+				}
+			}
+			if (data->cpy_map_parsing[i][y] == 'N'
+				|| data->cpy_map_parsing[i][y] == 'S'
+				|| data->cpy_map_parsing[i][y] == 'E'
+				|| data->cpy_map_parsing[i][y] == 'W')
+			{
+				if ((!data->cpy_map_parsing[i + 1] || ft_strlen(data->cpy_map_parsing[i + 1]) < (size_t)y)
+				|| data->cpy_map_parsing[i + 1][y] == ' ' || !data->cpy_map_parsing[i + 1][y]
+				|| data->cpy_map_parsing[i - 1][y] == ' ' || ft_strlen(data->cpy_map_parsing[i - 1]) < (size_t)y
+				|| !data->cpy_map_parsing[i - 1][y] || data->cpy_map_parsing[i][y + 1] == ' '
+				|| !data->cpy_map_parsing[i][y + 1] || data->cpy_map_parsing[i][y - 1] == ' '
+				|| y == 0)
+				{
+					printf("Not closed\n");
 					exit(1);
 				}
 			}
 			if (data->cpy_map_parsing[i][y] != '1' && data->cpy_map_parsing[i][y] != '0'
-				&& data->cpy_map_parsing[i][y] != 'N' && data->cpy_map_parsing[i][y] != ' ')
+				&& data->cpy_map_parsing[i][y] != 'N' && data->cpy_map_parsing[i][y] != ' '
+				&& data->cpy_map_parsing[i][y] != 'E' && data->cpy_map_parsing[i][y] != 'W'
+				&& data->cpy_map_parsing[i][y] != 'S')
 			{
 				printf("Unknown character in the map!\n");
 				exit(1);
@@ -273,11 +302,15 @@ void	checking_map(t_data *data)
 		}
 		i++;
 	}
+	if (player == 0)
+	{
+		printf("Error: add just one player!\n");
+		exit(1);
+	}
 }
 
 void	parsing(t_data *data, char **av)
 {
-	(void)data;
 	char	**line;
 	int i = 0;
 	int last = 0;
@@ -295,12 +328,6 @@ void	parsing(t_data *data, char **av)
 	while (data->cpy_map[i])
 	{
 		line = two_arguments(data->cpy_map[i]);
-		// int ii = 0;
-		// while (line[ii])
-		// {
-		// 	printf("line[%d]=%s\n", ii, line[ii]);
-		// 	ii++;
-		// }
 		if (ft_strcmp(line[0], "NO") == 0)
 		{
 			if (len_matrix(line) != 2)
@@ -383,13 +410,7 @@ void	parsing(t_data *data, char **av)
 			printf("unknowed type!\n");
 			exit(1);
 		}
-		// printf("line=%s\n", line[0]);
-		// if (index == 6)
-		// {
-		// 	printf("found all the types\n");
-		// 	break;
-		// }
-		// free_mat(line);
+		free_mat(line);
 		i++;
 	}
 	// fix i + 2 between last type and the map
@@ -447,6 +468,7 @@ void	parsing(t_data *data, char **av)
 	}
 	data->map[index] = NULL;
 	data->cpy_map_parsing[u] = NULL;
+	free_mat(data->cpy_map);
 	// i = 0;
 	// while (data->cpy_map_parsing[i])
 	// {
