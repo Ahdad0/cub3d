@@ -263,6 +263,12 @@ void	checking_map(t_data *data)
 					exit(1);
 				}
 			}
+			if (data->cpy_map_parsing[i][y] != '1' && data->cpy_map_parsing[i][y] != '0'
+				&& data->cpy_map_parsing[i][y] != 'N' && data->cpy_map_parsing[i][y] != ' ')
+			{
+				printf("Unknown character in the map!\n");
+				exit(1);
+			}
 			y++;
 		}
 		i++;
