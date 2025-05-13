@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abahaded <abahaded@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/13 14:51:57 by abahaded          #+#    #+#             */
+/*   Updated: 2025/05/13 14:53:38 by abahaded         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../helper_functions.h"
 
 static int	count(char const *s, char c)
@@ -15,19 +27,6 @@ static int	count(char const *s, char c)
 		i++;
 	}
 	return (cou);
-}
-
-void	free_p(char **s, unsigned int o)
-{
-	unsigned int	i;
-
-	i = 0;
-	while (i <= o)
-	{
-		free(s[i]);
-		i++;
-	}
-	free(s);
 }
 
 static int	ft_l(char *s, char c, int *j)
@@ -59,7 +58,7 @@ static char	*ft_str(char *s, char c, int *j)
 	while (s[i] == c || s[i] == '\t')
 		i++;
 	ll = ft_l(s, c, j);
-	p = malloc(ll + 1);
+	p = alloc(ll + 1, ALLOC);
 	if (!p)
 		return (NULL);
 	len = *j;
@@ -81,21 +80,14 @@ char	**ft_split(char const *s, char c)
 	i = 0;
 	j = 0;
 	num = count(s, c);
-	n = alloc((num + 1) * (sizeof(char *)));
+	n = alloc((num + 1) * (sizeof(char *)), ALLOC);
 	if (!n)
 	{
 		free(n);
 		return (NULL);
 	}
 	while (num--)
-	{
 		n[i++] = ft_str((char *)s, c, &j);
-		if (!n[i - 1])
-		{
-			free_p(n, i - 1);
-			return (NULL);
-		}
-	}
 	n[i] = NULL;
 	return (n);
 }

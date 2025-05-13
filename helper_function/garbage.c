@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   garbage.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abahaded <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/13 14:52:45 by abahaded          #+#    #+#             */
+/*   Updated: 2025/05/13 14:52:46 by abahaded         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../helper_functions.h"
 
 void	free_garbage(t_garbage **garbage)
@@ -19,13 +31,13 @@ void	free_garbage(t_garbage **garbage)
 	}
 }
 
-t_garbage *new_garbage(void *allocated)
+t_garbage	*new_garbage(void *allocated)
 {
 	t_garbage	*new;
 
 	new = malloc(sizeof(t_garbage));
 	if (!new)
-		return (write(2,"malloc failure\n",15) ,NULL);
+		return (write(2, "malloc failure\n", 15), NULL);
 	new->ptr = allocated;
 	new->next = NULL;
 	return (new);
@@ -34,14 +46,14 @@ t_garbage *new_garbage(void *allocated)
 void	garbage_add_back(void *allocated, t_garbage **garbage)
 {
 	t_garbage	*last;
-    t_garbage *new_allocation;
+	t_garbage	*new_allocation;
 
 	if (!garbage)
 		return ;
-    new_allocation = new_garbage(allocated);
-    if (!new_allocation)
-        return (free(allocated));
-    if (!*garbage)
+	new_allocation = new_garbage(allocated);
+	if (!new_allocation)
+		return (free(allocated));
+	if (!*garbage)
 	{
 		*garbage = new_allocation;
 		return ;
@@ -53,20 +65,20 @@ void	garbage_add_back(void *allocated, t_garbage **garbage)
 		last->next = new_allocation;
 }
 
-void *alloc(size_t size, e_action action)
+void	*alloc(size_t size, e_action action)
 {
-    void *returned;
-	static t_garbage *garbage;
-	
-    if(action == ALLOC)
-    {
-        returned = malloc(size);
-        if (!returned)
-            return (write(2,"malloc failure\n",15) ,NULL);
-        garbage_add_back(returned, &garbage);
-        return (returned);
-    }
-    else if (action == FREE)
-        free_garbage(&garbage);
-    return (NULL);
+	void				*returned;
+	static t_garbage	*garbage;
+
+	if (action == ALLOC)
+	{
+		returned = malloc(size);
+		if (!returned)
+			return (write(2, "malloc failure\n", 15), NULL);
+		garbage_add_back(returned, &garbage);
+		return (returned);
+	}
+	else if (action == FREE)
+		free_garbage(&garbage);
+	return (NULL);
 }

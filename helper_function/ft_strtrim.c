@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strtrim.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abahaded <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/13 14:52:37 by abahaded          #+#    #+#             */
+/*   Updated: 2025/05/13 14:52:38 by abahaded         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../helper_functions.h"
 
 static size_t	ft_strlcpy(char *dest, const char *src, size_t size)
@@ -7,7 +19,7 @@ static size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 	i = 0;
 	if (size != 0)
 	{
-		while (src [i] != '\0' && i < (size - 1))
+		while (src[i] != '\0' && i < (size - 1))
 		{
 			dest[i] = src[i];
 			i++;

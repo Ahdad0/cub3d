@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   storing_map.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abahaded <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/13 14:56:41 by abahaded          #+#    #+#             */
+/*   Updated: 2025/05/13 14:56:42 by abahaded         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../helper_functions.h"
 
 int	position_of_char(char *string, char *c)
@@ -22,8 +34,8 @@ int	position_of_char(char *string, char *c)
 
 void	store_player_position(t_data *data, char *string)
 {
-	if (ft_strchr(string, 'N') || ft_strchr(string, 'W')
-		|| ft_strchr(string, 'S') || ft_strchr(string, 'E'))
+	if (ft_strchr(string, 'N') || ft_strchr(string, 'W') || ft_strchr(string,
+			'S') || ft_strchr(string, 'E'))
 	{
 		data->player->x = position_of_char(string, "NWSE");
 		data->player->y = data->y;
@@ -37,7 +49,7 @@ void	coordination_map(t_data *data, char *av)
 
 	fd = open(av, O_RDONLY);
 	if (fd == -1)
-		ft_write_stderr("filename fail!");
+		ft_write_stderr(data, "filename fail!");
 	string = get_next_line(fd);
 	if (string)
 	{
@@ -50,7 +62,7 @@ void	coordination_map(t_data *data, char *av)
 		free(string);
 		string = get_next_line(fd);
 		if (!string)
-			break;
+			break ;
 		store_player_position(data, string);
 	}
 	close(fd);
@@ -66,12 +78,12 @@ void	store_map(t_data *data, char **av)
 	o = 0;
 	fd = open(av[1], O_RDONLY);
 	if (fd == -1)
-		ft_write_stderr("filename fail!");
+		ft_write_stderr(data, "filename fail!");
 	data->cpy_map = alloc((data->y + 1) * sizeof(char *), ALLOC);
 	string = get_next_line(fd);
 	while (string)
 	{
-		data->cpy_map[o++] = strdup(string);
+		data->cpy_map[o++] = ft_strdup(string);
 		free(string);
 		string = get_next_line(fd);
 	}
@@ -80,9 +92,9 @@ void	store_map(t_data *data, char **av)
 
 void	store_oriandcpy_map(t_data *data)
 {
-	int index;
-	int u;
-	int cpy_last;
+	int	index;
+	int	u;
+	int	cpy_last;
 
 	index = 0;
 	u = 0;
@@ -96,7 +108,8 @@ void	store_oriandcpy_map(t_data *data)
 		data->map[index++] = ft_strdup(data->cpy_map[data->last_line]);
 		data->cpy_map_parsing[u++] = ft_strdup(data->cpy_map[data->last_line]);
 		if (ft_strchr(data->cpy_map_parsing[u - 1], '\n'))
-			data->cpy_map_parsing[u - 1][ft_strlen(data->cpy_map_parsing[u - 1]) - 1] = '\0';
+			data->cpy_map_parsing[u - 1][ft_strlen(data->cpy_map_parsing[u - 1])
+				- 1] = '\0';
 		data->last_line++;
 	}
 	data->map[index] = NULL;

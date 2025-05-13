@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   storing_elements.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abahaded <abahaded@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/13 14:56:21 by abahaded          #+#    #+#             */
+/*   Updated: 2025/05/13 14:56:30 by abahaded         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../helper_functions.h"
 
 char	**two_arguments(char *one_line)
@@ -18,7 +30,6 @@ char	**two_arguments(char *one_line)
 	line = ft_split(new_str, ' ');
 	if (!line)
 		return (NULL);
-	// free(new_str);
 	while (line[i])
 	{
 		if (ft_strchr(line[i], '\n'))
@@ -31,7 +42,7 @@ char	**two_arguments(char *one_line)
 void	helperfunc(t_data *data, char **line, int i)
 {
 	if (len_matrix(line) != 2)
-		ft_write_stderr("invalid syntax of type and object!");
+		ft_write_stderr(data, "invalid syntax of type and object!");
 	data->last_line = i + 1;
 	data->index_checking++;
 }
@@ -41,23 +52,24 @@ int	store_colors(t_data *data, char **line, int i)
 	if (ft_strcmp(line[0], "F") == 0)
 	{
 		helperfunc(data, line, i);
-		data->player->F_RGB = split_colors(line[1]);
+		data->player->F_RGB = split_colors(data, line[1]);
 	}
 	else if (ft_strcmp(line[0], "C") == 0)
 	{
 		helperfunc(data, line, i);
-		data->player->C_RGB = split_colors(line[1]);
+		data->player->C_RGB = split_colors(data, line[1]);
 	}
 	else if (line && line[0] && line[0][0] != '\0')
 	{
 		if (data->index_checking != 6 && line[0][0] == '1')
-			ft_write_stderr("false position for the map or not all types found!");
+			ft_write_stderr(data,
+				"false position for the map or not all types found!");
 		else if (data->index_checking == 6 && line[0][0] == '1')
 		{
 			data->last_line = i;
 			return (-1);
 		}
-		ft_write_stderr("unknowed type!");
+		ft_write_stderr(data, "unknowed type!");
 	}
 	return (0);
 }
@@ -67,22 +79,22 @@ int	store_and_check(t_data *data, char **line, int i)
 	if (ft_strcmp(line[0], "NO") == 0)
 	{
 		helperfunc(data, line, i);
-		data->player->path_NO = strdup(line[1]);
+		data->player->path_NO = ft_strdup(line[1]);
 	}
 	else if (ft_strcmp(line[0], "SO") == 0)
 	{
 		helperfunc(data, line, i);
-		data->player->path_SO = strdup(line[1]);
+		data->player->path_SO = ft_strdup(line[1]);
 	}
 	else if (ft_strcmp(line[0], "WE") == 0)
 	{
 		helperfunc(data, line, i);
-		data->player->path_WE = strdup(line[1]);
+		data->player->path_WE = ft_strdup(line[1]);
 	}
 	else if (ft_strcmp(line[0], "EA") == 0)
 	{
 		helperfunc(data, line, i);
-		data->player->path_EA = strdup(line[1]);
+		data->player->path_EA = ft_strdup(line[1]);
 	}
 	else
 		return (store_colors(data, line, i));
@@ -91,14 +103,15 @@ int	store_and_check(t_data *data, char **line, int i)
 
 void	store_element(t_data *data)
 {
-	char **line;
-	int i = 0;
+	char	**line;
+	int		i;
 
+	i = 0;
 	while (data->cpy_map[i])
 	{
 		line = two_arguments(data->cpy_map[i]);
 		if (store_and_check(data, line, i) == -1)
-			break;
+			break ;
 		i++;
 	}
 }
