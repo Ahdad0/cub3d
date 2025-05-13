@@ -81,7 +81,7 @@ char	**ft_split(char const *s, char c)
 	i = 0;
 	j = 0;
 	num = count(s, c);
-	n = malloc((num + 1) * (sizeof(char *)));
+	n = alloc((num + 1) * (sizeof(char *)));
 	if (!n)
 	{
 		free(n);

@@ -27,8 +27,8 @@ int main(int ac, char **av)
 		ft_write_stderr("run it with : ./cub3d maps/map.cub");
 	else
 		checking_filename(av);
-	data = malloc(sizeof(t_data));
-	// data = alloc(sizeof(t_data), ALLOC);
+	// data = malloc(sizeof(t_data));
+	data = alloc(sizeof(t_data), ALLOC);
 	data->player = &player;
 	data->mlx = mlx_init();
 	initilaze_struct(data);

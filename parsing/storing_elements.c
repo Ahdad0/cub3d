@@ -99,7 +99,6 @@ void	store_element(t_data *data)
 		line = two_arguments(data->cpy_map[i]);
 		if (store_and_check(data, line, i) == -1)
 			break;
-		free_mat(line);
 		i++;
 	}
 }

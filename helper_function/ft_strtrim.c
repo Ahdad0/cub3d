@@ -53,7 +53,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 		else
 			break ;
 	}
-	new = (char *)malloc(size * sizeof(char) + 1);
+	new = alloc(size * sizeof(char) + 1, ALLOC);
 	if (!new)
 		return (NULL);
 	ft_strlcpy(new, (char *)s1, size + 1);

@@ -47,7 +47,7 @@ void	coordination_map(t_data *data, char *av)
 	while (string)
 	{
 		data->y++;
-		// free(string);
+		free(string);
 		string = get_next_line(fd);
 		if (!string)
 			break;
@@ -67,11 +67,12 @@ void	store_map(t_data *data, char **av)
 	fd = open(av[1], O_RDONLY);
 	if (fd == -1)
 		ft_write_stderr("filename fail!");
-	data->cpy_map = malloc((data->y + 1) * sizeof(char *));
+	data->cpy_map = alloc((data->y + 1) * sizeof(char *), ALLOC);
 	string = get_next_line(fd);
 	while (string)
 	{
 		data->cpy_map[o++] = strdup(string);
+		free(string);
 		string = get_next_line(fd);
 	}
 	data->cpy_map[o] = NULL;
@@ -88,8 +89,8 @@ void	store_oriandcpy_map(t_data *data)
 	cpy_last = data->last_line;
 	while (data->cpy_map[cpy_last])
 		cpy_last++;
-	data->map = malloc((cpy_last + 1) * sizeof(char *));
-	data->cpy_map_parsing = malloc((cpy_last + 1) * sizeof(char *));
+	data->map = alloc((cpy_last + 1) * sizeof(char *), ALLOC);
+	data->cpy_map_parsing = alloc((cpy_last + 1) * sizeof(char *), ALLOC);
 	while (data->cpy_map[data->last_line])
 	{
 		data->map[index++] = ft_strdup(data->cpy_map[data->last_line]);
