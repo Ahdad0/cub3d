@@ -6,7 +6,7 @@
 /*   By: abahaded <abahaded@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:56:41 by abahaded          #+#    #+#             */
-/*   Updated: 2025/05/15 19:20:05 by abahaded         ###   ########.fr       */
+/*   Updated: 2025/05/15 22:49:40 by abahaded         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ char	**helper_store_map(t_data *data, int total_lenght, int index, int u)
 			map[i - 1][ft_strlen(map[i - 1]) - 1] = '\0';
 		index++;
 	}
-	map[index] = NULL;
+	map[i] = NULL;
 	return (map);
 }
 
@@ -114,5 +114,7 @@ void	store_oriandcpy_map(t_data *data)
 		cpy_last++;
 	}
 	data->map = helper_store_map(data, cpy_last, data->last_line, u);
-	data->cpy_map_parsing = helper_store_map(data, cpy_last, data->last_line, u);
+	u = 0;
+	data->cpy_map_parsing = helper_store_map(data, cpy_last, data->last_line,
+			u);
 }
