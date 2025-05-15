@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   storing_map.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abahaded <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: abahaded <abahaded@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:56:41 by abahaded          #+#    #+#             */
-/*   Updated: 2025/05/13 14:56:42 by abahaded         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:56:56 by abahaded         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,28 +90,68 @@ void	store_map(t_data *data, char **av)
 	data->cpy_map[o] = NULL;
 }
 
+char **helper_store_map(t_data *data, int total_lenght, int index, int u)
+{
+	char	**map;
+	int		i;
+	
+	// data->map = alloc((tot + 1) * sizeof(char *), ALLOC);
+	i = 0;
+	if (u != 0)
+	{
+		map = alloc((u + 1) * sizeof(char *), ALLOC);
+	}
+	else
+		map = alloc((total_lenght + 1) * sizeof(char *), ALLOC);
+	while (data->cpy_map[index])
+	{
+		if (u != 0 && index == u)
+			break;
+			
+		// data->map[index++] = ft_strdup(data->cpy_map[index]);
+		map[i++] = ft_strdup(data->cpy_map[index]);
+		if (ft_strchr(map[i - 1], '\n'))
+			map[i - 1][ft_strlen(map[i - 1])
+				- 1] = '\0';
+		index++;
+	}
+	map[index] = NULL;
+	// data->cpy_map_parsing[u] = NULL;
+	return (map);
+}
+
+int	found_just_char(char *map, int c)
+{
+	int	i;
+
+	i = 0;
+	while (map[i])
+	{
+		if (map[i] != '\n' && map[i] != c)
+			return (0);
+		i++;
+	}
+	return (1);
+}
 void	store_oriandcpy_map(t_data *data)
 {
 	int	index;
 	int	u;
 	int	cpy_last;
+	bool	line = false;
 
 	index = 0;
 	u = 0;
 	cpy_last = data->last_line;
 	while (data->cpy_map[cpy_last])
-		cpy_last++;
-	data->map = alloc((cpy_last + 1) * sizeof(char *), ALLOC);
-	data->cpy_map_parsing = alloc((cpy_last + 1) * sizeof(char *), ALLOC);
-	while (data->cpy_map[data->last_line])
 	{
-		data->map[index++] = ft_strdup(data->cpy_map[data->last_line]);
-		data->cpy_map_parsing[u++] = ft_strdup(data->cpy_map[data->last_line]);
-		if (ft_strchr(data->cpy_map_parsing[u - 1], '\n'))
-			data->cpy_map_parsing[u - 1][ft_strlen(data->cpy_map_parsing[u - 1])
-				- 1] = '\0';
-		data->last_line++;
+		if (line == false && found_just_char(data->cpy_map[cpy_last], ' ') == 1)
+		{
+			u = cpy_last;
+			line = true;
+		}
+		cpy_last++;
 	}
-	data->map[index] = NULL;
-	data->cpy_map_parsing[u] = NULL;
+	data->map = helper_store_map(data, cpy_last, data->last_line, u);
+	data->cpy_map_parsing = helper_store_map(data, cpy_last, data->last_line, u);
 }

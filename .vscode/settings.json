@@ -10,6 +10,7 @@
         "helper_functions.h": "c",
         "format": "c",
         "chrono": "c",
-        "variant": "c"
+        "variant": "c",
+        "random": "c"
     }
 }

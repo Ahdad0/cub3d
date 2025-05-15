@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abahaded <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: abahaded <abahaded@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:56:56 by abahaded          #+#    #+#             */
-/*   Updated: 2025/05/13 14:57:01 by abahaded         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:23:59 by abahaded         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,12 @@ int	main(int ac, char **av)
 	data->mlx = mlx_init();
 	initilaze_struct(data);
 	parsing(data, av);
+	int i = 0;
+	while (data->map[i])
+	{
+		printf("%s\n", data->map[i]);
+		i++;
+	}
 	free_everything(data);
 	// int x = 0;
 	// data->mlx_win = mlx_new_window(data->mlx, data->x * 64, data->y * 64,
