@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extra_functions.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abahaded <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: abahaded <abahaded@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:51:34 by abahaded          #+#    #+#             */
-/*   Updated: 2025/05/13 14:51:38 by abahaded         ###   ########.fr       */
+/*   Updated: 2025/05/15 19:15:45 by abahaded         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,38 @@ int	cout_char(char *str, char c)
 		i++;
 	}
 	return (index);
+}
+
+int	found_just_char(char *map, int c)
+{
+	int	i;
+
+	i = 0;
+	while (map[i])
+	{
+		if (map[i] != '\n' && map[i] != c)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	position_of_char(char *string, char *c)
+{
+	int	i;
+	int	y;
+
+	i = 0;
+	while (string[i])
+	{
+		y = 0;
+		while (c[y])
+		{
+			if (c[y] == string[i])
+				return (i);
+			y++;
+		}
+		i++;
+	}
+	return (-1);
 }

@@ -31,5 +31,7 @@ void *alloc(size_t size, e_action action);
 void	free_mat(char **arr);
 int	len_matrix(char **array);
 int	cout_char(char *str, char c);
+int	position_of_char(char *string, char *c);
+int	found_just_char(char *map, int c);
 
 #endif

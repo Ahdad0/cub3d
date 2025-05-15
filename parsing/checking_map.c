@@ -6,7 +6,7 @@
 /*   By: abahaded <abahaded@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:54:24 by abahaded          #+#    #+#             */
-/*   Updated: 2025/05/13 14:55:27 by abahaded         ###   ########.fr       */
+/*   Updated: 2025/05/15 19:16:44 by abahaded         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ bool	check_player(t_data *data, int i, int y)
 
 bool	check_not_char(t_data *data, int i, int y)
 {
-	if (data->cpy_map_parsing[i][y] != '1'
-		&& data->cpy_map_parsing[i][y] != '0'
+	if (data->cpy_map_parsing[i][y] != '1' && data->cpy_map_parsing[i][y] != '0'
 		&& data->cpy_map_parsing[i][y] != 'N'
 		&& data->cpy_map_parsing[i][y] != ' '
 		&& data->cpy_map_parsing[i][y] != 'E'

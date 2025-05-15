@@ -6,31 +6,11 @@
 /*   By: abahaded <abahaded@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:56:41 by abahaded          #+#    #+#             */
-/*   Updated: 2025/05/15 16:56:56 by abahaded         ###   ########.fr       */
+/*   Updated: 2025/05/15 19:20:05 by abahaded         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../helper_functions.h"
-
-int	position_of_char(char *string, char *c)
-{
-	int	i;
-	int	y;
-
-	i = 0;
-	while (string[i])
-	{
-		y = 0;
-		while (c[y])
-		{
-			if (c[y] == string[i])
-				return (i);
-			y++;
-		}
-		i++;
-	}
-	return (-1);
-}
 
 void	store_player_position(t_data *data, char *string)
 {
@@ -90,56 +70,37 @@ void	store_map(t_data *data, char **av)
 	data->cpy_map[o] = NULL;
 }
 
-char **helper_store_map(t_data *data, int total_lenght, int index, int u)
+char	**helper_store_map(t_data *data, int total_lenght, int index, int u)
 {
 	char	**map;
 	int		i;
-	
-	// data->map = alloc((tot + 1) * sizeof(char *), ALLOC);
+
 	i = 0;
 	if (u != 0)
-	{
 		map = alloc((u + 1) * sizeof(char *), ALLOC);
-	}
 	else
 		map = alloc((total_lenght + 1) * sizeof(char *), ALLOC);
 	while (data->cpy_map[index])
 	{
 		if (u != 0 && index == u)
-			break;
-			
-		// data->map[index++] = ft_strdup(data->cpy_map[index]);
+			break ;
 		map[i++] = ft_strdup(data->cpy_map[index]);
 		if (ft_strchr(map[i - 1], '\n'))
-			map[i - 1][ft_strlen(map[i - 1])
-				- 1] = '\0';
+			map[i - 1][ft_strlen(map[i - 1]) - 1] = '\0';
 		index++;
 	}
 	map[index] = NULL;
-	// data->cpy_map_parsing[u] = NULL;
 	return (map);
 }
 
-int	found_just_char(char *map, int c)
-{
-	int	i;
-
-	i = 0;
-	while (map[i])
-	{
-		if (map[i] != '\n' && map[i] != c)
-			return (0);
-		i++;
-	}
-	return (1);
-}
 void	store_oriandcpy_map(t_data *data)
 {
-	int	index;
-	int	u;
-	int	cpy_last;
-	bool	line = false;
+	int		index;
+	int		u;
+	int		cpy_last;
+	bool	line;
 
+	line = false;
 	index = 0;
 	u = 0;
 	cpy_last = data->last_line;

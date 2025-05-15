@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abahaded <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/15 19:17:17 by abahaded          #+#    #+#             */
+/*   Updated: 2025/05/15 19:17:19 by abahaded         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
 char	*ft_strjoin(char const *s1, char const *s2)
@@ -78,36 +90,6 @@ char	*ft_afternewline(char *s)
 	new[j] = '\0';
 	return (new);
 }
-
-// char	*ft_strchr(const char *s, int c)
-// {
-// 	size_t	i;
-
-// 	i = 0;
-// 	if (!s)
-// 		return (NULL);
-// 	while (s[i])
-// 	{
-// 		if (s[i] == (char)c)
-// 			return ((char *)&s[i]);
-// 		i++;
-// 	}
-// 	if (s[i] == (char)c)
-// 		return ((char *)&s[i]);
-// 	return (NULL);
-// }
-
-// size_t	ft_strlen(const char *s)
-// {
-// 	size_t	j;
-
-// 	if (!s)
-// 		return (0);
-// 	j = 0;
-// 	while (s[j])
-// 		j++;
-// 	return (j);
-// }
 
 char	*ft_strduup(const char *s)
 {
