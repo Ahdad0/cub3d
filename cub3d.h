@@ -42,6 +42,8 @@ typedef struct data
 	char	**cpy_map;
 	char	**cpy_map_parsing;
 	char	**map;
+	void *map_img;
+	char *map_addr;
 	t_player	*player;
 }	t_data;
 

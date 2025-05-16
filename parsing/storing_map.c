@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   storing_map.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abahaded <abahaded@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iel-kher <iel-kher@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:56:41 by abahaded          #+#    #+#             */
-/*   Updated: 2025/05/15 19:20:05 by abahaded         ###   ########.fr       */
+/*   Updated: 2025/05/15 19:27:56 by iel-kher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,13 +95,13 @@ char	**helper_store_map(t_data *data, int total_lenght, int index, int u)
 
 void	store_oriandcpy_map(t_data *data)
 {
-	int		index;
+	// int		index;
 	int		u;
 	int		cpy_last;
 	bool	line;
 
 	line = false;
-	index = 0;
+	// index = 0;
 	u = 0;
 	cpy_last = data->last_line;
 	while (data->cpy_map[cpy_last])
