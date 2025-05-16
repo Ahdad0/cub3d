@@ -114,5 +114,16 @@ void	store_oriandcpy_map(t_data *data)
 		cpy_last++;
 	}
 	data->map = helper_store_map(data, cpy_last, data->last_line, u);
+	// int i = 0;
+	data->x = 0;
+	data->y = 0;
+	size_t len = ft_strlen(data->map[0]);
+	while (data->map[data->x])
+	{
+		if (ft_strlen(data->map[data->x]) > len)
+			len = ft_strlen(data->map[data->x]);
+		data->x++;
+	}
+	data->y = len;
 	data->cpy_map_parsing = helper_store_map(data, cpy_last, data->last_line, u);
 }
