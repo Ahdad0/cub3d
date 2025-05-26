@@ -18,7 +18,7 @@ CC = cc
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(OBJS) $(CFLAGS) $(MLBX) -o $(NAME) 
+	$(CC) $(OBJS) $(CFLAGS) $(MLBX) -lm -o $(NAME) 
 
 fclean: clean
 	rm -f $(NAME)

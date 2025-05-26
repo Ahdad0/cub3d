@@ -6,7 +6,7 @@
 /*   By: iel-kher <iel-kher@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:56:41 by abahaded          #+#    #+#             */
-/*   Updated: 2025/05/15 19:27:56 by iel-kher         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:54:37 by iel-kher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,12 +118,12 @@ void	store_oriandcpy_map(t_data *data)
 	data->x = 0;
 	data->y = 0;
 	size_t len = ft_strlen(data->map[0]);
-	while (data->map[data->x])
+	while (data->map[data->y])
 	{
-		if (ft_strlen(data->map[data->x]) > len)
-			len = ft_strlen(data->map[data->x]);
-		data->x++;
+		if (ft_strlen(data->map[data->y]) > len)
+			len = ft_strlen(data->map[data->y]);
+		data->y++;
 	}
-	data->y = len;
+	data->x = len;
 	data->cpy_map_parsing = helper_store_map(data, cpy_last, data->last_line, u);
 }
