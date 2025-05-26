@@ -6,7 +6,7 @@
 /*   By: iel-kher <iel-kher@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:56:01 by abahaded          #+#    #+#             */
-/*   Updated: 2025/05/22 15:52:17 by iel-kher         ###   ########.fr       */
+/*   Updated: 2025/05/26 21:06:35 by iel-kher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,23 +62,17 @@ static void locate_player_on_map(t_data *d)
             char c = d->map[i][j];
             if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
             {
-                // Centre de la tuile
                 d->player->x = j + 0.5;
                 d->player->y = i + 0.5;
-                d->player->dir = c;    // à adapter selon ton struct pour l’orientation
-                d->map[i][j] = '0';    // transforme en sol
+                d->player->dir = c; 
+                d->map[i][j] = '0';
                 return;
             }
         }
     }
-    // Si pas trouvé, c’est une erreur
     ft_write_stderr(d, "add just one player!"); 
 }
 
-/**
- * parsing() mis à jour : on enlève toute recherche de 'N','S','E','W' dans store_map
- * et on appelle locate_player_on_map APRÈS avoir construit data->map.
- */
 void parsing(t_data *data, char **av)
 {
     data->index_checking = 0;
@@ -88,7 +82,6 @@ void parsing(t_data *data, char **av)
     store_element(data);
     store_oriandcpy_map(data);
 
-    // Nouvelle détection de la position du joueur
     locate_player_on_map(data);
 
     checking_map(data);
