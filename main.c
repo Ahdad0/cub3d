@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iel-kher <iel-kher@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: abahaded <abahaded@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:56:56 by abahaded          #+#    #+#             */
-/*   Updated: 2025/05/27 12:57:18 by iel-kher         ###   ########.fr       */
+/*   Updated: 2025/05/27 23:19:39 by abahaded         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -540,9 +540,6 @@ int	main(int ac, char **av)
 {
 	t_data		*data;
 	t_player	player;
-
-	// int		height;
-	// int		wight;
 	if (ac != 2)
 	{
 		write(2, "run it with : ./cub3d maps/map.cub", 34);
@@ -550,14 +547,13 @@ int	main(int ac, char **av)
 	}
 	else
 		checking_filename(av);
-	// data = malloc(sizeof(t_data));
 	data = alloc(sizeof(t_data), ALLOC);
 	data->player = &player;
 	data->mlx = mlx_init();
+	
 	initilaze_struct(data);
 	parsing(data, av);
-	// printf("%d\n", data->x);
-	// printf("%d\n", data->y);
+
 	data->mlx_win = mlx_new_window(data->mlx, data->screen_w, data->screen_h, "cub3d 3D");
 	data->map_img  = mlx_new_image(data->mlx, data->screen_w, data->screen_h);
 	data->map_addr = mlx_get_data_addr(data->map_img, &data->bits, &data->size_line, &data->endian);

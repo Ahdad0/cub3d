@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iel-kher <iel-kher@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: abahaded <abahaded@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:56:01 by abahaded          #+#    #+#             */
-/*   Updated: 2025/05/27 12:56:37 by iel-kher         ###   ########.fr       */
+/*   Updated: 2025/05/27 23:17:51 by abahaded         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 void	destroy_images(t_data *data)
 {
-	if (data->player->NO)
-		mlx_destroy_image(data->mlx, data->player->NO);
-	if (data->player->SO)
-		mlx_destroy_image(data->mlx, data->player->SO);
-	if (data->player->WE)
-		mlx_destroy_image(data->mlx, data->player->WE);
-	if (data->player->EA)
-		mlx_destroy_image(data->mlx, data->player->EA);
+	if (data->player->textu[0].img)
+		mlx_destroy_image(data->mlx, data->player->textu[0].img);
+	if (data->player->textu[1].img)
+		mlx_destroy_image(data->mlx, data->player->textu[1].img);
+	if (data->player->textu[2].img)
+		mlx_destroy_image(data->mlx, data->player->textu[2].img);
+	if (data->player->textu[3].img)
+		mlx_destroy_image(data->mlx, data->player->textu[3].img);
 	write(2, "invalid path or invalid image!\n", 31);
 	mlx_destroy_display(data->mlx);
 	free(data->mlx);
@@ -31,24 +31,21 @@ void	destroy_images(t_data *data)
 
 void	storing_images(t_data *data)
 {
-	int	width;
-	int	height;
-
-	data->player->NO = mlx_xpm_file_to_image(data->mlx, data->player->path_NO,
-			&width, &height);
-	if (!data->player->NO)
+	data->player->textu[0].img = mlx_xpm_file_to_image(data->mlx, data->player->path_NO,
+			&data->player->textu[0].width, &data->player->textu[0].height);
+	if (!data->player->textu[0].img)
 		destroy_images(data);
-	data->player->SO = mlx_xpm_file_to_image(data->mlx, data->player->path_SO,
-			&width, &height);
-	if (!data->player->SO)
+	data->player->textu[1].img = mlx_xpm_file_to_image(data->mlx, data->player->path_SO,
+			&data->player->textu[1].width, &data->player->textu[1].height);
+	if (!data->player->textu[1].img)
 		destroy_images(data);
-	data->player->WE = mlx_xpm_file_to_image(data->mlx, data->player->path_WE,
-			&width, &height);
-	if (!data->player->WE)
+	data->player->textu[2].img = mlx_xpm_file_to_image(data->mlx, data->player->path_WE,
+			&data->player->textu[2].width, &data->player->textu[2].height);
+	if (!data->player->textu[2].img)
 		destroy_images(data);
-	data->player->EA = mlx_xpm_file_to_image(data->mlx, data->player->path_EA,
-			&width, &height);
-	if (!data->player->EA)
+	data->player->textu[3].img = mlx_xpm_file_to_image(data->mlx, data->player->path_EA,
+			&data->player->textu[3].width, &data->player->textu[3].height);
+	if (!data->player->textu[3].img)
 		destroy_images(data);
 }
 
@@ -86,4 +83,13 @@ void parsing(t_data *data, char **av)
 
     checking_map(data);
     storing_images(data);
+	data->player->textu[0].addr = mlx_get_data_addr(data->player->textu[0].img,
+			&data->player->textu[0].bits_per_pixel, &data->player->textu[0].bits_per_pixel, &data->player->textu[0].endian);
+	data->player->textu[1].addr = mlx_get_data_addr(data->player->textu[1].img,
+			&data->player->textu[1].bits_per_pixel, &data->player->textu[1].bits_per_pixel, &data->player->textu[1].endian);
+	data->player->textu[2].addr = mlx_get_data_addr(data->player->textu[2].img,
+			&data->player->textu[2].bits_per_pixel, &data->player->textu[2].bits_per_pixel, &data->player->textu[2].endian);
+	data->player->textu[3].addr = mlx_get_data_addr(data->player->textu[3].img,
+			&data->player->textu[3].bits_per_pixel, &data->player->textu[3].bits_per_pixel, &data->player->textu[3].endian);
+	data->player->textu[0].endian= 1;
 }

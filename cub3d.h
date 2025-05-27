@@ -32,6 +32,17 @@
 #include <stdbool.h>
 #include <math.h> 
 
+typedef struct s_texture
+{
+    void   *img;
+    char   *addr; 
+    int     width;
+    int     height;
+    int     bits_per_pixel;
+    int     line_length;
+    int     endian;
+}               t_texture;
+
 typedef struct player
 {
 	double	x;
@@ -57,6 +68,7 @@ typedef struct player
 	int		*C_RGB;
 	int		*F_RGB;
 	char dir;
+	t_texture *textu;
 }	t_player;
 
 typedef struct data

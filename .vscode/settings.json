@@ -1,20 +1,21 @@
 {
     "files.associations": {
-		"array": "c",
-		"string": "c",
-		"string_view": "c",
-		"span": "c",
-		"ctype.h": "c",
-		"stdbool.h": "c",
-		"cub3d.h": "c",
-		"helper_functions.h": "c",
-		"format": "c",
-		"chrono": "c",
-		"variant": "c",
-		"random": "c",
-		"math.h": "c",
-		"mlx.h": "c",
-		"stdio.h": "c",
-		"get_next_line.h": "c"
-	}
+        "array": "c",
+        "string": "c",
+        "string_view": "c",
+        "span": "c",
+        "ctype.h": "c",
+        "stdbool.h": "c",
+        "cub3d.h": "c",
+        "helper_functions.h": "c",
+        "format": "c",
+        "chrono": "c",
+        "variant": "c",
+        "random": "c",
+        "math.h": "c",
+        "mlx.h": "c",
+        "stdio.h": "c",
+        "get_next_line.h": "c",
+        "bit": "c"
+    }
 }
