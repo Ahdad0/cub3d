@@ -1,9 +1,9 @@
-NO textures/floor.xpm 
-WE textures/floor.xpm
-EA textures/floor.xpm                                 
-SO textures/floor.xpm
+NO textures/bricks.xpm 
+WE textures/leavesop.xpm
+EA textures/walkstone.xpm                                 
+SO textures/waterf1.xpm
 
-F 220,100,0
+F 255,100,1
 C 225,30,0
 
 111111111111111111111111111111111

@@ -6,7 +6,7 @@
 /*   By: iel-kher <iel-kher@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:56:56 by abahaded          #+#    #+#             */
-/*   Updated: 2025/05/26 20:58:58 by iel-kher         ###   ########.fr       */
+/*   Updated: 2025/05/27 12:57:18 by iel-kher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 #include <ctype.h>
 #include <stdbool.h>
 
-
+#define SCREEN_WIDTH  1280
+#define SCREEN_HEIGHT  640
 #define TILE_MMAP 20
-#define SPEED 0.01
+#define SPEED 0.05
+#define ROT_SPEED 0.03
 #define PLAYER_SIZE  (TILE_MMAP/2) // côté du carré en pixels
 // #define PLAYER_RADIUS ((double)PLAYER_SIZE / TILE_MMAP / 2.0) 
 
@@ -55,8 +57,8 @@ void	initilaze_struct(t_data *data)
     data->player->turn_left  = 0;
     data->player->turn_right = 0;
 
-	data->screen_w = 640;
-	data->screen_h = 480;
+	data->screen_w = SCREEN_WIDTH;
+	data->screen_h = SCREEN_HEIGHT;
 }
 
 int close_window(t_data *data)
@@ -192,7 +194,7 @@ static void update_player_rotation(t_data *d)
 {
     double old_dx = d->player->dir_x;
     double old_px = d->player->plane_x;
-    double rs     = 0.01; //vitesse de rotation
+    double rs     = ROT_SPEED; //vitesse de rotation
 
     if (d->player->turn_left)
     {
@@ -482,7 +484,7 @@ void draw_vertical_line(t_data *d, int x, int start, int end, int side)
 
 void draw_minimap(t_data *d)
 {
-    int scale = TILE_MMAP / 4;
+    int scale = TILE_MMAP / 2;
     int offX  = d->screen_w - d->x * scale;
     int offY  = d->screen_h - d->y * scale;
     int my = 0;
@@ -507,7 +509,7 @@ void draw_minimap(t_data *d)
     }
         int px    = offX + (int)(d->player->x * scale);
         int py    = offY + (int)(d->player->y * scale);
-        int half  = 2;
+        int half  = 4;
         int dy    = -half;
         while (dy <= half)
         {
