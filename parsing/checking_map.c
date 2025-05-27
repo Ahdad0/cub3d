@@ -6,7 +6,7 @@
 /*   By: abahaded <abahaded@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:54:24 by abahaded          #+#    #+#             */
-/*   Updated: 2025/05/15 22:50:48 by abahaded         ###   ########.fr       */
+/*   Updated: 2025/05/22 16:20:39 by abahaded         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@ bool	check_if_true(t_data *data, int i, int y)
 	if ((!data->cpy_map_parsing[i + 1]
 			|| ft_strlen(data->cpy_map_parsing[i + 1]) < (size_t)y)
 		|| data->cpy_map_parsing[i + 1][y] == ' '
-		|| !data->cpy_map_parsing[i + 1][y] || data->cpy_map_parsing[i
-		- 1][y] == ' ' || ft_strlen(data->cpy_map_parsing[i - 1]) < (size_t)y
+		|| !data->cpy_map_parsing[i + 1][y]
+		|| i == 0
+		|| ft_strlen(data->cpy_map_parsing[i - 1]) < (size_t)y
+		|| data->cpy_map_parsing[i - 1][y] == ' '
 		|| !data->cpy_map_parsing[i - 1][y] || data->cpy_map_parsing[i][y
 		+ 1] == ' ' || !data->cpy_map_parsing[i][y + 1]
 		|| data->cpy_map_parsing[i][y - 1] == ' ' || y == 0)
