@@ -6,7 +6,7 @@
 /*   By: abahaded <abahaded@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:56:01 by abahaded          #+#    #+#             */
-/*   Updated: 2025/05/27 23:17:51 by abahaded         ###   ########.fr       */
+/*   Updated: 2025/05/29 22:15:15 by abahaded         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	destroy_images(t_data *data)
 
 void	storing_images(t_data *data)
 {
+	data->player->textu = alloc(sizeof(t_texture) * 4, ALLOC);
 	data->player->textu[0].img = mlx_xpm_file_to_image(data->mlx, data->player->path_NO,
 			&data->player->textu[0].width, &data->player->textu[0].height);
 	if (!data->player->textu[0].img)
