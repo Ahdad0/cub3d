@@ -11,6 +11,11 @@
         "format": "c",
         "chrono": "c",
         "variant": "c",
-        "random": "c"
+        "random": "c",
+        "math.h": "c",
+        "mlx.h": "c",
+        "stdio.h": "c",
+        "get_next_line.h": "c",
+        "bit": "c"
     }
 }

@@ -6,7 +6,7 @@
 /*   By: abahaded <abahaded@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:56:41 by abahaded          #+#    #+#             */
-/*   Updated: 2025/05/15 22:49:40 by abahaded         ###   ########.fr       */
+/*   Updated: 2025/05/30 00:28:06 by abahaded         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,13 +95,13 @@ char	**helper_store_map(t_data *data, int total_lenght, int index, int u)
 
 void	store_oriandcpy_map(t_data *data)
 {
-	int		index;
+	// int		index;
 	int		u;
 	int		cpy_last;
 	bool	line;
 
 	line = false;
-	index = 0;
+	// index = 0;
 	u = 0;
 	cpy_last = data->last_line;
 	while (data->cpy_map[cpy_last])
@@ -114,7 +114,16 @@ void	store_oriandcpy_map(t_data *data)
 		cpy_last++;
 	}
 	data->map = helper_store_map(data, cpy_last, data->last_line, u);
-	u = 0;
-	data->cpy_map_parsing = helper_store_map(data, cpy_last, data->last_line,
-			u);
+	// int i = 0;
+	data->x = 0;
+	data->y = 0;
+	size_t len = ft_strlen(data->map[0]);
+	while (data->map[data->y])
+	{
+		if (ft_strlen(data->map[data->y]) > len)
+			len = ft_strlen(data->map[data->y]);
+		data->y++;
+	}
+	data->x = len;
+	data->cpy_map_parsing = helper_store_map(data, cpy_last, data->last_line, u);
 }

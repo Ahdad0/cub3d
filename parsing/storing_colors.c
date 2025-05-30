@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   storing_colors.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abahaded <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: iel-kher <iel-kher@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:56:10 by abahaded          #+#    #+#             */
-/*   Updated: 2025/05/13 14:56:11 by abahaded         ###   ########.fr       */
+/*   Updated: 2025/05/15 19:28:10 by iel-kher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ int	*split_colors(t_data *data, char *line)
 {
 	char	**new;
 	int		*color;
-	int		num;
+	// int		num;
 
-	num = 0;
+	// num = 0;
 	new = ft_split(line, ',');
 	if (!new)
 		return (NULL);
