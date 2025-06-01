@@ -155,7 +155,7 @@ void draw_map_to_img(t_data *data)
 
 int key_press(int keycode, t_data *d)
 {
-	// printf("%d\n", keycode);
+	printf("%d\n", keycode);
 	if(keycode == MOVE_UP)
 		d->player->move_up = 1;
 	if(keycode == MOVE_DOWN)
@@ -564,5 +564,5 @@ int	main(int ac, char **av)
 	mlx_hook(data->mlx_win, 17, 0, close_window, data);
 	mlx_loop(data->mlx);
 	free_everything(data);
-    
+
 }
