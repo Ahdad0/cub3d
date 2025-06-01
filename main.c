@@ -77,7 +77,7 @@ int close_window(t_data *data)
 void put_pixel_to_img(t_data *data, int px, int py, int color)
 {
 	char *dst;
-	
+    
 	dst = data->map_addr 
 	+ (py * data->size_line) //décalage y
 	+ (px * (data->bits / 8)); //décalage x
@@ -252,7 +252,7 @@ void update_player_pos(t_data *d)
         nx -= d->player->plane_x * speed;
         ny -= d->player->plane_y * speed;
     }
-	int a = 0;
+	// int a = 0;
     int tx = (int)nx;
     int ty = (int)ny;
     if (tx < 0 || tx >= d->x || ty < 0 || ty >= d->y)
@@ -261,37 +261,40 @@ void update_player_pos(t_data *d)
 	}
 	// printf("key of x is %d\n", d->player->press_x);
 	// printf("im in %c\n", d->map[ty][tx]);
-	if (((d->map[ty][tx + 1] == 'D') || 
-     	(d->map[ty][tx - 1] == 'D') || 
-     	(d->map[ty + 1][tx]
-			&& d->map[ty + 1][tx] == 'D') || 
-     	(d->map[ty - 1][tx] == 'D')) &&
-    	(d->player->press_x == 1 && d->player->door_hide == 1))
-	{
-		printf("here!! doors closed\n");
-		d->player->door_hide = 0;
-		a = 1;
-	}
-	if (((d->map[ty][tx + 1] == 'D') || 
-     	(d->map[ty][tx - 1] == 'D') || 
-     	(d->map[ty + 1][tx] == 'D') || 
-     	(d->map[ty - 1][tx] == 'D')) &&
-    	(d->player->door_hide == 0 && a == 1))
-	{
-		d->player->press_x = 0;
-		a = 0;
-		return;
-	}
-	if (((d->map[ty][tx + 1] == 'D') || 
-     	(d->map[ty][tx - 1] == 'D') || 
-     	(d->map[ty + 1][tx] == 'D') || 
-     	(d->map[ty - 1][tx] == 'D')) &&
-    	(d->player->press_x == 1 && d->player->door_hide == 0))
-	{
-		printf("here!! doors open\n");
-		d->player->door_hide = 1;
-		d->player->press_x = 0;
-	}
+	// if (((d->map[ty][tx + 1] == 'D') || 
+    //  	(d->map[ty][tx - 1] == 'D') || 
+    //  	(d->map[ty + 1] && d->map[ty + 1][tx] == 'D') || 
+    //  	(ty - 1 >= 0 && d->map[ty - 1][tx] == 'D')) &&
+    // if (d->map[ty][tx + 1] == 'D'
+    //     && d->player->press_x == 1 && d->player->door_hide == 1)
+	// {
+	// 	printf("here!! doors closed\n");
+	// 	d->player->door_hide = 0;
+	// 	a = 1;
+	// }
+	// if (((d->map[ty][tx + 1] == 'D') || 
+    //  	(d->map[ty][tx - 1] && d->map[ty][tx - 1] == 'D') || 
+    //  	(d->map[ty + 1] && d->map[ty + 1][tx] == 'D') || 
+    //  	(ty - 1 >= 0 && d->map[ty - 1][tx] == 'D')) &&
+    // 	(d->player->door_hide == 0 && a == 1))
+    // if (d->map[ty][tx + 1] == 'D'
+    //     && d->player->door_hide == 0 && a == 1)
+	// {
+	// 	d->player->press_x = 0;
+	// 	a = 0;
+	// 	return;
+	// }
+	// if (((d->map[ty][tx + 1] == 'D') || 
+    //  	(d->map[ty][tx - 1] == 'D') || 
+    //  	(d->map[ty + 1] && d->map[ty + 1][tx] == 'D') || 
+    //  	(ty - 1 >= 0 && d->map[ty - 1][tx] == 'D')) &&
+    // if (d->map[ty][tx + 1] == 'D'
+    //     && d->player->press_x == 1 && d->player->door_hide == 0)
+	// {
+	// 	printf("here!! doors open\n");
+	// 	d->player->door_hide = 1;
+	// 	d->player->press_x = 0;
+	// }
     if (d->map[ty][tx] == '1' || (d->map[ty][tx] == 'D' && d->player->door_hide == 0)) // stop hiting it
 	{
         return;
