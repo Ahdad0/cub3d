@@ -33,5 +33,7 @@ int	len_matrix(char **array);
 int	cout_char(char *str, char c);
 int	position_of_char(char *string, char *c);
 int	found_just_char(char *map, int c);
+void *ft_calloc(size_t count, size_t size);
+void	*ft_memset(void *s, int c, size_t n);
 
 #endif

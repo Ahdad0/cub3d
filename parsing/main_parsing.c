@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abahaded <abahaded@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iel-kher <iel-kher@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:56:01 by abahaded          #+#    #+#             */
-/*   Updated: 2025/05/29 22:15:15 by abahaded         ###   ########.fr       */
+/*   Updated: 2025/06/03 13:37:14 by iel-kher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,25 +50,64 @@ void	storing_images(t_data *data)
 		destroy_images(data);
 }
 
-static void locate_player_on_map(t_data *d)
+void	set_player_spawn_orientation(t_data *data, char ori)
 {
-    for (int i = 0; i < d->y; i++)
-    {
-        int row_len = ft_strlen(d->map[i]);
-        for (int j = 0; j < row_len; j++)
-        {
-            char c = d->map[i][j];
-            if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
-            {
-                d->player->x = j + 0.5;
-                d->player->y = i + 0.5;
-                d->player->dir = c; 
-                d->map[i][j] = '0';
-                return;
-            }
-        }
-    }
-    ft_write_stderr(d, "add just one player!"); 
+	if (ori == 'N')
+	{
+		data->player->dir_x   = 0.0;
+		data->player->dir_y   = -1.0;
+		data->player->plane_x =  0.66;
+		data->player->plane_y =  0.0;
+	}
+	else if (ori == 'S')
+	{
+		data->player->dir_x   = 0.0;
+		data->player->dir_y   =  1.0;
+		data->player->plane_x = -0.66;
+		data->player->plane_y =  0.0;
+	}
+	else if (ori == 'E')
+	{
+		data->player->dir_x   =  1.0;
+		data->player->dir_y   =  0.0;
+		data->player->plane_x =  0.0;
+		data->player->plane_y =  0.66;
+	}
+	else if (ori == 'W')
+	{
+		data->player->dir_x   = -1.0;
+		data->player->dir_y   =  0.0;
+		data->player->plane_x =  0.0;
+		data->player->plane_y = -0.66;
+	}
+}
+
+void	locate_player_on_map(t_data *d)
+{
+	int	i;
+	int	j;
+	char	c;
+
+	i = 0;
+	while (i < d->y)
+	{
+		j = 0;
+		while (j < (int)ft_strlen(d->map[i]))
+		{
+			c = d->map[i][j];
+			if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
+			{
+				d->player->x = j + 0.5;
+				d->player->y = i + 0.5;
+				set_player_spawn_orientation(d, c);
+				d->map[i][j] = '0';
+				return ;
+			}
+			j++;
+		}
+		i++;
+	}
+	ft_write_stderr(d, "add just one player!");
 }
 
 void parsing(t_data *data, char **av)
@@ -83,14 +122,5 @@ void parsing(t_data *data, char **av)
     locate_player_on_map(data);
 
     checking_map(data);
-    storing_images(data);
-	data->player->textu[0].addr = mlx_get_data_addr(data->player->textu[0].img,
-			&data->player->textu[0].bits_per_pixel, &data->player->textu[0].bits_per_pixel, &data->player->textu[0].endian);
-	data->player->textu[1].addr = mlx_get_data_addr(data->player->textu[1].img,
-			&data->player->textu[1].bits_per_pixel, &data->player->textu[1].bits_per_pixel, &data->player->textu[1].endian);
-	data->player->textu[2].addr = mlx_get_data_addr(data->player->textu[2].img,
-			&data->player->textu[2].bits_per_pixel, &data->player->textu[2].bits_per_pixel, &data->player->textu[2].endian);
-	data->player->textu[3].addr = mlx_get_data_addr(data->player->textu[3].img,
-			&data->player->textu[3].bits_per_pixel, &data->player->textu[3].bits_per_pixel, &data->player->textu[3].endian);
-	data->player->textu[0].endian= 1;
+	load_all_textures(data);
 }

@@ -13,7 +13,15 @@
 #define MOVE_RIGHT 100 //D
 #define ECHAP 65307 
 
+#include <stdbool.h>
 
+#define SCREEN_WIDTH  1280
+#define SCREEN_HEIGHT  640
+#define TILE_MMAP 20
+#define SPEED 0.05
+#define ROT_SPEED 0.03
+#define PLAYER_SIZE  (TILE_MMAP/2) // côté du carré en pixels
+// #define PLAYER_RADIUS ((double)PLAYER_SIZE / TILE_MMAP / 2.0) 
 #define KEY_PRESS        2
 #define KEY_RELEASE      3
 #define KEY_PRESS_MASK   (1L << 0)
@@ -31,6 +39,15 @@
 # include <stdio.h>
 #include <stdbool.h>
 #include <math.h> 
+
+typedef struct  s_img
+{
+    void    *img;
+    char    *addr;
+    int      bits_per_pixel;
+    int      line_length;
+    int      endian;
+}               t_img;
 
 typedef struct s_texture
 {
@@ -71,6 +88,47 @@ typedef struct player
 	t_texture *textu;
 }	t_player;
 
+enum e_texindex 
+{ 
+	NORTH = 0, 
+	SOUTH = 1, 
+	WEST = 2, 
+	EAST = 3 
+};
+
+typedef struct  s_texinfo
+{
+    int     index;
+    int     x;
+    int     y;
+    int     size;
+    double  step;
+    double  pos;
+    int     hex_ceiling;
+    int     hex_floor;
+}               t_texinfo;
+
+typedef struct  s_ray
+{
+    double  camera_x;
+    double  dir_x;
+    double  dir_y;
+    int     map_x;
+    int     map_y;
+    double  deltadist_x;
+    double  deltadist_y;
+    double  sidedist_x;
+    double  sidedist_y;
+    int     step_x;
+    int     step_y;
+    int     side;
+    double  wall_dist;
+    int     line_height;    
+    int     draw_start;
+    int     draw_end;
+    double  wall_x;
+}               t_ray;
+
 typedef struct data
 {
 	int		index_player;
@@ -89,9 +147,15 @@ typedef struct data
 	char	**map;
 	void *map_img;
 	char *map_addr;
-	int screen_w;
-    int screen_h;
 	t_player	*player;
+	 int     win_width;
+    int     win_height;
+
+    int    **texture_pixels;
+    int    **textures;
+    int      tex_size;
+
+    t_texinfo texinfo;  
 }	t_data;
 
 void checking_filename(char **av);
@@ -108,5 +172,50 @@ void	free_mat(char **arr);
 void	store_oriandcpy_map(t_data *data);
 void	check_path_elements(t_data *data);
 void	checking_map(t_data *data);
+
+//init
+
+void init_mlx_win_and_img(t_data *data);
+void	compute_ceil_floor_colors(t_data *data);
+void	init_game(t_data *data, char **av);
+void	allocate_texture_buffer(t_data *data);
+void	setup_mlx_loop(t_data *data);
+void	initilaze_struct(t_data *data);
+
+//texture
+void    init_texture_pixels(t_data *data);
+void get_texture_index(t_data *data, t_ray *ray);
+void    update_texture_pixels(t_data *data, t_texinfo *tex, t_ray *ray, int x);
+void    load_one_texture(t_data *data, int index, char *path);
+void    load_all_textures(t_data *data);
+
+//movement
+int key_press(int keycode, t_data *d);
+int key_release(int keycode, t_data *d);
+void update_player_rotation(t_data *d);
+void update_player_pos(t_data *d);
+
+//dda
+void set_dda(t_ray *ray, t_player *player);
+void perform_dda(t_data *data, t_ray *ray);
+void calculate_line_height(t_ray *ray, t_data *data, t_player *player);
+
+//raycasting
+void init_img(t_data *data, t_img *image, int w, int h);
+void set_image_pixel(t_img *image, int x, int y, int color);
+void set_frame_image_pixel(t_data *data, t_img *image, int x, int y);
+void init_raycasting_info(int x, t_ray *ray, t_player *player, t_data *data);
+int raycasting(t_player *player, t_data *data);
+
+//render
+
+void draw_3d_to_img(t_data *data);
+int render_loop3d(t_data *data);
+void put_pixel_to_img(t_data *data, int px, int py, int color);
+
+//minimap
+void draw_minimap_on_image(t_data *data);
+
+int close_window(t_data *data);
 
 #endif
