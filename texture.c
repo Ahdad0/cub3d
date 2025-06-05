@@ -1,26 +1,26 @@
 #include "cub3d.h"
 
-void	texture_id(t_data *data, t_ray *ray)
+void	texture_orientation(t_data *data, t_ray *ray)
 {
 	if (ray->side == 0)
 	{
 		if (ray->dir_x < 0)
-			data->tex_data.index = WEST;
+			data->tex_data.orientation = WEST;
 		else
-			data->tex_data.index = EAST;
+			data->tex_data.orientation = EAST;
 	}
 	else
 	{
 		if (ray->dir_y > 0)
-			data->tex_data.index = SOUTH;
+			data->tex_data.orientation = SOUTH;
 		else
-			data->tex_data.index = NORTH;
+			data->tex_data.orientation = NORTH;
 	}
 }
 
 static void	compute_texture_x(t_data *data, t_tex_data *tex, t_ray *ray)
 {
-	texture_id(data, ray);
+	texture_orientation(data, ray);
 	tex->x = (int)(ray->wall_x * tex->size);
 	if ((ray->side == 0 && ray->dir_x < 0)
 		|| (ray->side == 1 && ray->dir_y > 0))
@@ -44,7 +44,7 @@ static void	draw_textured_column(t_data *data, t_tex_data *tex, t_ray *ray, int 
 	{
 		tex->y = (int)tex->pos & (tex->size - 1);
 		tex->pos += tex->step;
-		color = data->textures[tex->index][tex->size * tex->y + tex->x];
+		color = data->textures[tex->orientation][tex->size * tex->y + tex->x];
 		if (color > 0)
 			data->texture_pixels[y][x] = color;
 		y++;

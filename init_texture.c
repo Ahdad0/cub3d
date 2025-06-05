@@ -5,7 +5,7 @@ void	init_texture_fields(t_data *data)
 	data->texture_pixels = NULL;
 	data->textures       = NULL;
 	data->tex_size       = 64;
-	data->tex_data.index  = 0;
+	data->tex_data.orientation  = 0;
 	data->tex_data.size   = data->tex_size;
 }
 

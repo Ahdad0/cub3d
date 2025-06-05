@@ -98,7 +98,7 @@ enum e_texindex
 
 typedef struct  s_tex_data
 {
-    int     index;
+    int     orientation;
     int     x;
     int     y;
     int     size;
@@ -185,7 +185,7 @@ void	init_texture_fields(t_data *data);
 
 //texture
 void    initialize_texture(t_data *data);
-void texture_id(t_data *data, t_ray *ray);
+void texture_orientation(t_data *data, t_ray *ray);
 void    fill_column_with_texture(t_data *data, t_tex_data *tex, t_ray *ray, int x);
 void    load_one_texture(t_data *data, int index, char *path);
 void    load_all_textures(t_data *data);
