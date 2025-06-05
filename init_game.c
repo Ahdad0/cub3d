@@ -38,16 +38,7 @@ void	init_game(t_data *data, char **av)
 	data->win_width = SCREEN_WIDTH;
 	data->win_height = SCREEN_HEIGHT;
 	initilaze_struct(data);
-	data->mlx = mlx_init();
-	if (!data->mlx)
-		ft_write_stderr(data, "Error: cannot init MLX");
-	data->mlx_win = mlx_new_window( data->mlx, data->win_width, data->win_height, "cub3D");
-	if (!data->mlx_win)
-		ft_write_stderr(data, "Error: cannot create window");
-	data->map_img = mlx_new_image(data->mlx, data->win_width, data->win_height);
-	if (!data->map_img)
-		ft_write_stderr(data, "Error: cannot create image");
-	data->map_addr = mlx_get_data_addr(data->map_img, &data->bits, &data->size_line, &data->endian);
+	init_mlx_win_and_img(data);
 	parsing(data, av);
 	compute_ceil_floor_colors(data);
 	data->tex_size = 64;
