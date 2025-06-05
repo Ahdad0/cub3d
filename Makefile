@@ -3,7 +3,7 @@ SRCS = main.c helper_function/get_next_line/get_next_line.c helper_function/get_
 	helper_function/ft_strchr.c helper_function/ft_strcmp.c helper_function/ft_strdup.c helper_function/ft_atoi.c \
 	helper_function/garbage.c parsing/filename.c parsing/error_msg.c parsing/storing_map.c parsing/storing_elements.c \
 	helper_function/extra_functions.c parsing/checking_map.c parsing/storing_colors.c raycast.c movement.c texture.c \
-	helper_function/ft_memset.c helper_function/ft_calloc.c minimap.c init_game.c render.c init_struct.c init_texture.c \
+	helper_function/ft_memset.c helper_function/ft_calloc.c minimap.c init_game.c render.c init_struct.c \
 	load_textures.c keys.c dda_1.c dda_2.c 
 
 NAME = cub3d
