@@ -96,7 +96,7 @@ enum e_texindex
 	EAST = 3 
 };
 
-typedef struct  s_texinfo
+typedef struct  s_tex_data
 {
     int     index;
     int     x;
@@ -106,7 +106,7 @@ typedef struct  s_texinfo
     double  pos;
     int     hex_ceiling;
     int     hex_floor;
-}               t_texinfo;
+}               t_tex_data;
 
 typedef struct  s_ray
 {
@@ -155,7 +155,7 @@ typedef struct data
     int    **textures;
     int      tex_size;
 
-    t_texinfo texinfo;  
+    t_tex_data tex_data;  
 }	t_data;
 
 void checking_filename(char **av);
@@ -181,11 +181,12 @@ void	init_game(t_data *data, char **av);
 void	allocate_texture_buffer(t_data *data);
 void	setup_mlx_loop(t_data *data);
 void	initilaze_struct(t_data *data);
+void	init_texture_fields(t_data *data);
 
 //texture
-void    init_texture_pixels(t_data *data);
-void get_texture_index(t_data *data, t_ray *ray);
-void    update_texture_pixels(t_data *data, t_texinfo *tex, t_ray *ray, int x);
+void    initialize_texture(t_data *data);
+void texture_id(t_data *data, t_ray *ray);
+void    fill_column_with_texture(t_data *data, t_tex_data *tex, t_ray *ray, int x);
 void    load_one_texture(t_data *data, int index, char *path);
 void    load_all_textures(t_data *data);
 
@@ -196,15 +197,15 @@ void update_player_rotation(t_data *d);
 void update_player_pos(t_data *d);
 
 //dda
-void set_dda(t_ray *ray, t_player *player);
-void perform_dda(t_data *data, t_ray *ray);
-void calculate_line_height(t_ray *ray, t_data *data, t_player *player);
+void dda_init(t_ray *ray, t_player *player);
+void dda_advance_ray_to_collision(t_data *data, t_ray *ray);
+void get_wall_line_height(t_ray *ray, t_data *data, t_player *player);
 
 //raycasting
 void init_img(t_data *data, t_img *image, int w, int h);
 void set_image_pixel(t_img *image, int x, int y, int color);
 void set_frame_image_pixel(t_data *data, t_img *image, int x, int y);
-void init_raycasting_info(int x, t_ray *ray, t_player *player, t_data *data);
+void init_raycast(int x, t_ray *ray, t_player *player, t_data *data);
 int raycasting(t_player *player, t_data *data);
 
 //render

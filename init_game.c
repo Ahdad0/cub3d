@@ -23,11 +23,11 @@ void	compute_ceil_floor_colors(t_data *data)
 	r = data->player->C_RGB[0];
 	g = data->player->C_RGB[1];
 	b = data->player->C_RGB[2];
-	data->texinfo.hex_ceiling = (r << 16) | (g << 8) | b;
+	data->tex_data.hex_ceiling = (r << 16) | (g << 8) | b;
 	r = data->player->F_RGB[0];
 	g = data->player->F_RGB[1];
 	b = data->player->F_RGB[2];
-	data->texinfo.hex_floor = (r << 16) | (g << 8) | b;
+	data->tex_data.hex_floor = (r << 16) | (g << 8) | b;
 }
 
 void	init_game(t_data *data, char **av)

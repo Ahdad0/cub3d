@@ -32,15 +32,6 @@ void	init_map_and_player_state(t_data *data)
 	data->player->turn_right = 0;
 }
 
-void	init_texture_fields(t_data *data)
-{
-	data->texture_pixels = NULL;
-	data->textures       = NULL;
-	data->tex_size       = 64;
-	data->texinfo.index  = 0;
-	data->texinfo.size   = data->tex_size;
-}
-
 void	initilaze_struct(t_data *data)
 {
 	init_paths_and_colors(data);

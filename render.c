@@ -1,6 +1,5 @@
 #include "cub3d.h"
 
-
 void put_pixel_to_img(t_data *data, int px, int py, int color)
 {
     char *dst;
@@ -26,9 +25,9 @@ void draw_3d_to_img(t_data *data)
             if (color > 0)
                 put_pixel_to_img(data, x, y, color);
             else if (y < data->win_height / 2)
-                put_pixel_to_img(data, x, y, data->texinfo.hex_ceiling);
+                put_pixel_to_img(data, x, y, data->tex_data.hex_ceiling);
             else
-                put_pixel_to_img(data, x, y, data->texinfo.hex_floor);
+                put_pixel_to_img(data, x, y, data->tex_data.hex_floor);
             x++;
         }
         y++;
