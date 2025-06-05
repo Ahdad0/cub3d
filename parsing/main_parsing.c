@@ -6,7 +6,7 @@
 /*   By: iel-kher <iel-kher@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:56:01 by abahaded          #+#    #+#             */
-/*   Updated: 2025/06/03 13:37:14 by iel-kher         ###   ########.fr       */
+/*   Updated: 2025/06/05 20:29:01 by iel-kher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,5 +122,5 @@ void parsing(t_data *data, char **av)
     locate_player_on_map(data);
 
     checking_map(data);
-	load_all_textures(data);
+	// load_all_textures(data);
 }
