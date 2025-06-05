@@ -2,13 +2,13 @@
 
 void	init_raycast(int x, t_ray *ray, t_player *player, t_data *data)
 {
+	ray->map_x    = (int)player->x;
+	ray->map_y    = (int)player->y;
 	ray->camera_x = 2 * x / (double)data->win_width - 1;
 	ray->dir_x    = player->dir_x   + player->plane_x * ray->camera_x;
 	ray->dir_y    = player->dir_y   + player->plane_y * ray->camera_x;
-	ray->map_x    = (int)player->x;
-	ray->map_y    = (int)player->y;
 	ray->deltadist_x = fabs(1 / ray->dir_x);
-	ray->deltadist_y = fabs(1 / ray->dir_y);
+	ray->deltadist_y = fabs(1 / ray->dir_y);/**/
 }
 
 int	raycasting(t_player *player, t_data *data)

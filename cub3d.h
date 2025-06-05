@@ -196,20 +196,25 @@ int key_release(int keycode, t_data *d);
 void update_player_rotation(t_data *d);
 void update_player_pos(t_data *d);
 
-//dda
+//dda_1
+void	init_ray_side_x(t_ray *ray, t_player *player);
+void	init_ray_side_y(t_ray *ray, t_player *player);
 void dda_init(t_ray *ray, t_player *player);
+void	advance_ray_step(t_ray *ray);
+int	check_collision_or_exit(t_data *data, t_ray *ray);
+
+//dda_2
 void dda_advance_ray_to_collision(t_data *data, t_ray *ray);
+void	calculate_wall_distance(t_ray *ray);
+void	calculate_wall_x(t_ray *ray, t_player *player);
+void	get_line_bounds(t_ray *ray, t_data *data);
 void get_wall_line_height(t_ray *ray, t_data *data, t_player *player);
 
 //raycasting
-void init_img(t_data *data, t_img *image, int w, int h);
-void set_image_pixel(t_img *image, int x, int y, int color);
-void set_frame_image_pixel(t_data *data, t_img *image, int x, int y);
 void init_raycast(int x, t_ray *ray, t_player *player, t_data *data);
 int raycasting(t_player *player, t_data *data);
 
 //render
-
 void draw_3d_to_img(t_data *data);
 int render_loop3d(t_data *data);
 void put_pixel_to_img(t_data *data, int px, int py, int color);

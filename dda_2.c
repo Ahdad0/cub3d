@@ -10,7 +10,7 @@ void	dda_advance_ray_to_collision(t_data *data, t_ray *ray)
 	}
 }
 
-static void	calculate_wall_distance(t_ray *ray)
+void	calculate_wall_distance(t_ray *ray)
 {
 	if (ray->side == 0)
 		ray->wall_dist = ray->sidedist_x - ray->deltadist_x;
@@ -18,7 +18,7 @@ static void	calculate_wall_distance(t_ray *ray)
 		ray->wall_dist = ray->sidedist_y - ray->deltadist_y;
 }
 
-static void	calculate_wall_x(t_ray *ray, t_player *player)
+void	calculate_wall_x(t_ray *ray, t_player *player)
 {
 	double	raw_wall_x;
 
@@ -30,7 +30,7 @@ static void	calculate_wall_x(t_ray *ray, t_player *player)
 	ray->wall_x = raw_wall_x - floor(raw_wall_x);
 }
 
-static void	get_line_bounds(t_ray *ray, t_data *data)
+void	get_line_bounds(t_ray *ray, t_data *data)
 {
 	int	h;
 	int	h_half;
