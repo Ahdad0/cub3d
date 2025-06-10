@@ -7,8 +7,8 @@
 // #define MOVE_UP 100 //D
 // #define ECHAP 65307 
 
-#define MOVE_UP 122 //Z
-#define MOVE_LEFT 113 //Q
+#define MOVE_UP 119 //Z
+#define MOVE_LEFT 97 //Q
 #define MOVE_DOWN 115 //S
 #define MOVE_RIGHT 100 //D
 #define ECHAP 65307 
@@ -43,8 +43,18 @@ typedef struct s_texture
     int     endian;
 }               t_texture;
 
+typedef struct s_door
+{
+	int	x;
+	int	y;
+	int	is_open;
+}               t_door;
+
 typedef struct player
 {
+	int		max_door;
+	int	press_x;
+	int	door_hide;
 	double	x;
 	double	y;
 	double dir_x;
@@ -69,6 +79,7 @@ typedef struct player
 	int		*F_RGB;
 	char dir;
 	t_texture *textu;
+	t_door *door;
 }	t_player;
 
 typedef struct data

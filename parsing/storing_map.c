@@ -95,17 +95,26 @@ char	**helper_store_map(t_data *data, int total_lenght, int index, int u)
 
 void	store_oriandcpy_map(t_data *data)
 {
-	// int		index;
+	int		index;
 	int		u;
 	int		cpy_last;
 	bool	line;
 
 	line = false;
-	// index = 0;
+	index = 0;
 	u = 0;
 	cpy_last = data->last_line;
 	while (data->cpy_map[cpy_last])
 	{
+		index = 0;
+		while (data->cpy_map[cpy_last][index])
+		{
+			if (data->cpy_map[cpy_last][index] == 'D')
+			{
+				data->player->max_door++;
+			}
+			index++;
+		}
 		if (line == false && found_just_char(data->cpy_map[cpy_last], ' ') == 1)
 		{
 			u = cpy_last;
@@ -114,16 +123,32 @@ void	store_oriandcpy_map(t_data *data)
 		cpy_last++;
 	}
 	data->map = helper_store_map(data, cpy_last, data->last_line, u);
-	// int i = 0;
+	int i = 0;
+	int ii = 0;
 	data->x = 0;
 	data->y = 0;
 	size_t len = ft_strlen(data->map[0]);
+	// while (data->map[data->y])
+	// {
+	data->player->door = alloc(sizeof(t_door) * data->player->max_door, ALLOC);
 	while (data->map[data->y])
 	{
+		i = 0;
+		while (data->map[data->y][i])
+		{
+			if (data->map[data->y][i] == 'D')
+			{
+				data->player->door[ii].x = i;
+				data->player->door[ii].y = data->y;
+			}
+			i++;
+		}
 		if (ft_strlen(data->map[data->y]) > len)
 			len = ft_strlen(data->map[data->y]);
 		data->y++;
 	}
+	// printf("max door is %d\n", data->player->max_door);
+	// printf("first door is at %d %d\n", data->player->door[0].x, data->player->door[0].y);
 	data->x = len;
 	data->cpy_map_parsing = helper_store_map(data, cpy_last, data->last_line, u);
 }

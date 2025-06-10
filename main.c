@@ -1,12 +1,10 @@
-/* ************************************************************************** */
-/*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abahaded <abahaded@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:56:56 by abahaded          #+#    #+#             */
-/*   Updated: 2025/05/27 23:19:39 by abahaded         ###   ########.fr       */
+/*   Updated: 2025/05/30 07:12:55 by abahaded         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +16,7 @@
 #define SCREEN_HEIGHT  640
 #define TILE_MMAP 20
 #define SPEED 0.05
-#define ROT_SPEED 0.03
+#define ROT_SPEED 0.1
 #define PLAYER_SIZE  (TILE_MMAP/2) // côté du carré en pixels
 // #define PLAYER_RADIUS ((double)PLAYER_SIZE / TILE_MMAP / 2.0) 
 
@@ -28,6 +26,12 @@ void draw_minimap(t_data *d);
 
 void	initilaze_struct(t_data *data)
 {
+    // data->player->door->x = 0;
+    // data->player->door->y = 0;
+    // data->player->door->is_open = 0;
+	data->player->max_door = 0;
+	data->player->door_hide = 0;
+	data->player->press_x = 0;
 	data->player->path_NO = NULL;
 	data->player->path_SO = NULL;
 	data->player->path_WE = NULL;
@@ -49,7 +53,7 @@ void	initilaze_struct(t_data *data)
 	data->cpy_map_parsing = NULL;
 	data->map_img = NULL;
 	data->map_addr = NULL;
-	
+
 	data->player->dir_x   = 1.0;
     data->player->dir_y   = 0.0;
     data->player->plane_x = 0.0;
@@ -59,6 +63,7 @@ void	initilaze_struct(t_data *data)
 
 	data->screen_w = SCREEN_WIDTH;
 	data->screen_h = SCREEN_HEIGHT;
+	// data->press_x = 0;
 }
 
 int close_window(t_data *data)
@@ -75,6 +80,11 @@ void put_pixel_to_img(t_data *data, int px, int py, int color)
 {
 	char *dst;
 	
+    // if (px < 0 || px >= data->screen_w || py < 0 || py >= data->screen_h)
+    // {
+    //     printf("Pixel out of bounds: (%d, %d)\n", px, py);
+    //     return;
+    // }
 	dst = data->map_addr 
 	+ (py * data->size_line) //décalage y
 	+ (px * (data->bits / 8)); //décalage x
@@ -127,7 +137,7 @@ void draw_map_to_img(t_data *data)
 	int y;
 	int tx;
 	int ty;
-	
+
 	tx = 0;
 	ty = 0;
 	x = 0;
@@ -143,6 +153,8 @@ void draw_map_to_img(t_data *data)
 				break;
 			if(data->map[y][x] == '1')
 				draw_rect_img(data, tx, ty, 0x555555);
+			else if (data->map[y][x] == 'D')
+				draw_rect_img(data, tx, ty, 0x555555);
 			// else if(data->map[y][x] == 'N' || data->map[y][x] == 'S' || data->map[y][x] == 'E' || data->map[y][x] == 'W')
 			// 	draw_rect_img(data, tx, ty, 0xFF0000);
 			else
@@ -155,7 +167,8 @@ void draw_map_to_img(t_data *data)
 
 int key_press(int keycode, t_data *d)
 {
-	// printf("%d\n", keycode);
+	printf("%d\n", keycode);
+	d->player->press_x = 0;
 	if(keycode == MOVE_UP)
 		d->player->move_up = 1;
 	if(keycode == MOVE_DOWN)
@@ -168,6 +181,10 @@ int key_press(int keycode, t_data *d)
 		d->player->turn_left = 1;
 	if(keycode == TURN_RIGHT)
 		d->player->turn_right = 1;
+	if (keycode == 120)
+	{
+		d->player->press_x = 1;
+	}
 	if (keycode == ECHAP) 
 		close_window(d);
 	return(0);
@@ -216,12 +233,26 @@ static void update_player_rotation(t_data *d)
     }
 }
 
+int get_index(t_data *d, int x, int y)
+{
+    int i = 0;
+
+    while (i < d->player->max_door)
+    {
+        if (d->player->door[i].x == x && d->player->door[i].y == y)
+        {
+            return i;
+        }
+        i++;
+    }
+    return (-1);
+}
 void update_player_pos(t_data *d)
 {
     double speed = SPEED;
     double nx = d->player->x;
     double ny = d->player->y;
-	
+
     if (d->player->move_up)
     {
         nx += d->player->dir_x * speed;
@@ -242,66 +273,75 @@ void update_player_pos(t_data *d)
         nx -= d->player->plane_x * speed;
         ny -= d->player->plane_y * speed;
     }
+	int a = 0;
+	// int a = 0;
     int tx = (int)nx;
     int ty = (int)ny;
     if (tx < 0 || tx >= d->x || ty < 0 || ty >= d->y)
+	{
         return;
-    if (d->map[ty][tx] == '1')
+	}
+	// printf("key of x is %d\n", d->player->press_x);
+	// printf("im in %c\n", d->map[ty][tx]);
+	if (((d->map[ty][tx] && d->map[ty][tx + 1] && d->map[ty][tx + 1] == 'D') || 
+     	(tx > 0 && d->map[ty][tx - 1] == 'D') || 
+     	(d->map[ty + 1] && d->map[ty + 1][tx] == 'D') || 
+     	(ty > 0 && d->map[ty - 1][tx] == 'D')) &&
+    	(d->player->press_x == 1 && d->player->door_hide == 1))
+	{
+        // printf("index_x=%d, index_y=%d, char in the map %c\n", tx, ty, d->map[ty][tx + 1]);
+        // if (get_index(d, tx + 1, ty) != -1)
+        // {
+        //     // printf("c=%c\n", d->map[d->player->door[get_index(d, tx + 1, ty)].y][d->player->door[get_index(d, tx + 1, ty)].x]);
+        //     d->player->door[get_index(d, tx + 1, ty)].is_open = 0;
+        // }
+        // d->player->door[0].is_open = 0;
+		d->player->door_hide = 0;
+		a = 1;
+	}
+	if (((d->map[ty][tx] && d->map[ty][tx + 1]
+        && d->map[ty][tx + 1] == 'D') || 
+     	(tx > 0 && d->map[ty][tx - 1] == 'D') || 
+     	(d->map[ty + 1]
+			&& d->map[ty + 1][tx] == 'D') || 
+     	(ty > 0 && d->map[ty - 1][tx] == 'D')) &&
+    	(d->player->door_hide == 0 && a == 1))
+	{
+		d->player->press_x = 0;
+		a = 0;
+		return;
+	}
+	if (((d->map[ty][tx] && d->map[ty][tx + 1]
+        && d->map[ty][tx + 1] == 'D') || 
+     	(tx > 0 && d->map[ty][tx - 1] == 'D') || 
+     	(d->map[ty + 1]
+			&& d->map[ty + 1][tx] == 'D') || 
+     	(ty > 0 && d->map[ty - 1][tx] == 'D')) &&
+    	(d->player->press_x == 1 && d->player->door_hide == 0))
+	{
+        // printf("c=%c\n", d->map[d->player->door[0].y][d->player->door[0].x]);
+        // if (get_index(d, tx + 1, ty) != -1)
+        // {
+        //     // printf("c=%c\n", d->map[d->player->door[0].y][d->player->door[0].x]);
+        //     d->player->door[get_index(d, tx + 1, ty)].is_open = 1;
+        // }
+        // d->player->door[0].is_open = 1;
+        d->player->door_hide = 1;
+		d->player->press_x = 0;
+	}
+    printf("im in %c\n", d->map[ty][tx]);
+
+    // && get_index(d, tx, ty) != -1 
+    if (d->map[ty][tx] == '1') // draw it 3d
+	{
+        // printf("im in %c\n", d->map[ty][tx]);
         return;
+	}
     d->player->x = nx;
     d->player->y = ny;
 }
 
-
 #define FOV (M_PI / 3.0)   // 60° de champ de vision
-
-// static void draw_fov_2d(t_data *d)
-// {
-//     const int  rays = 300;
-//     double      base_angle = atan2(d->player->dir_y, d->player->dir_x);
-//     for (int i = 0; i < rays; i++)
-//     {
-//         double angle = base_angle - FOV/2
-//                      + (double)i * (FOV / (rays - 1));
-//         double dx = cos(angle), dy = sin(angle);
-//         double px = d->player->x * TILE_MMAP;
-//         double py = d->player->y * TILE_MMAP;
-//         for (double t = 0; t < d->x * TILE_MMAP; t += 1.0)
-//         {
-//             int mx = (int)((px + dx * t) / TILE_MMAP);
-//             int my = (int)((py + dy * t) / TILE_MMAP);
-//             if (d->map[my][mx] == '1') break;
-//             put_pixel_to_img(d,
-//                 (int)(px + dx * t),
-//                 (int)(py + dy * t),
-//                 0x3399FF);
-//         }
-//     }
-// }
-
-
-// static void draw_ray_2d(t_data *d)
-// {
-//     double px = d->player->x * TILE_MMAP;
-//     double py = d->player->y * TILE_MMAP;
-//     double len = sqrt(d->player->dir_x * d->player->dir_x
-//                     + d->player->dir_y * d->player->dir_y);
-//     double dx = d->player->dir_x / len;
-//     double dy = d->player->dir_y / len;
-//     double step = 0.0;
-//     while (1)
-//     {
-//         int mx = (int)((px + dx * step) / TILE_MMAP);
-//         int my = (int)((py + dy * step) / TILE_MMAP);
-//         if (d->map[my][mx] == '1')
-//             break;
-//         put_pixel_to_img(d,
-//             (int)(px + dx * step),
-//             (int)(py + dy * step),
-//             0xFF0000);
-//         step += 1.0;
-//     }
-// }
 
 typedef struct  s_dda
 {
@@ -390,8 +430,17 @@ void perform_dda(t_data *d, t_dda *dda, int *mapX, int *mapY)
         }
         if (*mapX < 0 || *mapX >= d->x || *mapY < 0 || *mapY >= d->y)
             break;
-        if (d->map[*mapY][*mapX] == '1')
+        if (d->map[*mapY][*mapX] == '1' 
+            || (d->map[*mapY][*mapX] == 'D'))
+        {
+                // && get_index(d, *mapX, *mapY) != -1 
+                // && d->player->door[get_index(d, *mapY, *mapY)].is_open == 0)) // draw it 3d
+            // if (get_index(d, *mapX, *mapY) != -1 
+            //     && d->player->door[get_index(d, *mapY, *mapY)].is_open == 0)
+                // printf("hit at %d %d\n", *mapX, *mapY);
+			// if (d->map[*mapY][*mapX] == 'D' && d->player->press_x != 1)
             hit = 1;
+		}
     }
 }
 
@@ -500,7 +549,8 @@ void draw_minimap(t_data *d)
              && tx + scale <= d->screen_w
              && ty + scale <= d->screen_h)
             {
-                int col = (d->map[my][mx] == '1') ? 0x555555 : 0xDDDDDD;
+                int col = (d->map[my][mx] == '1' || d->map[my][mx] == 'D') ? 0x555555 : 0xDDDDDD;
+
                 draw_rect_img(d, tx, ty, col);
             }
             mx++;
@@ -522,8 +572,6 @@ void draw_minimap(t_data *d)
             dy++;
         }
 }
-
-
 
 int render_loop3d(t_data *data)
 {
@@ -550,7 +598,7 @@ int	main(int ac, char **av)
 	data = alloc(sizeof(t_data), ALLOC);
 	data->player = &player;
 	data->mlx = mlx_init();
-	
+
 	initilaze_struct(data);
 	parsing(data, av);
 
@@ -564,5 +612,4 @@ int	main(int ac, char **av)
 	mlx_hook(data->mlx_win, 17, 0, close_window, data);
 	mlx_loop(data->mlx);
 	free_everything(data);
-    
 }

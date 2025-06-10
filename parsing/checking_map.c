@@ -44,6 +44,7 @@ bool	check_not_char(t_data *data, int i, int y)
 		&& data->cpy_map_parsing[i][y] != ' '
 		&& data->cpy_map_parsing[i][y] != 'E'
 		&& data->cpy_map_parsing[i][y] != 'W'
+		&& data->cpy_map_parsing[i][y] != 'D'
 		&& data->cpy_map_parsing[i][y] != 'S')
 		return (true);
 	return (false);
