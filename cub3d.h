@@ -7,8 +7,8 @@
 // #define MOVE_UP 100 //D
 // #define ECHAP 65307 
 
-#define MOVE_UP 122 //Z
-#define MOVE_LEFT 113 //Q
+#define MOVE_UP 119 //Z
+#define MOVE_LEFT 97 //Q
 #define MOVE_DOWN 115 //S
 #define MOVE_RIGHT 100 //D
 #define ECHAP 65307 

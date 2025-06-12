@@ -155,7 +155,7 @@ void draw_map_to_img(t_data *data)
 
 int key_press(int keycode, t_data *d)
 {
-	// printf("%d\n", keycode);
+	printf("%d\n", keycode);
 	if(keycode == MOVE_UP)
 		d->player->move_up = 1;
 	if(keycode == MOVE_DOWN)
